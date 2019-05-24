@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servidor.Usuarios", "Servid
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servidor.Datos", "Servidor.Datos\Servidor.Datos.csproj", "{F20042A7-AD49-480B-A15F-4882E8487583}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{AAD9644F-5FF9-461C-9FBF-6AC8EE19E56F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
