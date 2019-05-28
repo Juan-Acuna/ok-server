@@ -1,170 +1,136 @@
--- Generado por Oracle SQL Developer Data Modeler 4.0.0.833
---   en:        2019-05-24 18:49:12 CLT
+-- Generado por Oracle SQL Developer Data Modeler 18.3.0.268.1208
+--   en:        2019-05-28 10:12:42 GMT-04:00
 --   sitio:      Oracle Database 11g
 --   tipo:      Oracle Database 11g
 
 
 
+CREATE TABLE equipo (
+    id_equipo    NUMBER(4) NOT NULL,
+    disponible   CHAR(1) NOT NULL
+);
 
-DROP TABLE Equipo CASCADE CONSTRAINTS ;
+ALTER TABLE equipo ADD CONSTRAINT equipo_pk PRIMARY KEY ( id_equipo );
 
-DROP TABLE EstadoSeg CASCADE CONSTRAINTS ;
+CREATE TABLE estadosol (
+    id_estado   NUMBER(1) NOT NULL,
+    nombre      VARCHAR2(20) NOT NULL
+);
 
-DROP TABLE EstadoSol CASCADE CONSTRAINTS ;
+ALTER TABLE estadosol ADD CONSTRAINT estadosol_pk PRIMARY KEY ( id_estado );
 
-DROP TABLE Factura CASCADE CONSTRAINTS ;
+CREATE TABLE inspeccion (
+    id_inspeccion   NUMBER(4) NOT NULL,
+    fecha_visita    DATE NOT NULL,
+    observaciones   VARCHAR2(500) NOT NULL,
+    monto           NUMBER(6) NOT NULL
+);
 
-DROP TABLE Inspeccion CASCADE CONSTRAINTS ;
+ALTER TABLE inspeccion ADD CONSTRAINT inspeccion_pk PRIMARY KEY ( id_inspeccion );
 
-DROP TABLE Seguimiento CASCADE CONSTRAINTS ;
+CREATE TABLE servicio (
+    id_servicio   NUMBER(1) NOT NULL,
+    nombre        VARCHAR2(25) NOT NULL,
+    descripcion   VARCHAR2(200) NOT NULL,
+    costo         NUMBER(6) NOT NULL
+);
 
-DROP TABLE Servicio CASCADE CONSTRAINTS ;
+ALTER TABLE servicio ADD CONSTRAINT servicio_pk PRIMARY KEY ( id_servicio );
 
-DROP TABLE Solicitud CASCADE CONSTRAINTS ;
+CREATE TABLE solicitud (
+    id_solicitud               NUMBER NOT NULL,
+    direccion                  VARCHAR2(50) NOT NULL,
+    creacion                   DATE NOT NULL,
+    fin                        DATE,
+    usuario_rut                VARCHAR2(10) NOT NULL,
+    estadosol_id_estado        NUMBER(1) NOT NULL,
+    servicio_id_servicio       NUMBER(1) NOT NULL,
+    equipo_id_equipo           NUMBER(4) NOT NULL,
+    inspeccion_id_inspeccion   NUMBER(4) NOT NULL
+);
 
-DROP TABLE TipoPago CASCADE CONSTRAINTS ;
+CREATE UNIQUE INDEX solicitud__idx ON
+    solicitud (
+        inspeccion_id_inspeccion
+    ASC );
 
-DROP TABLE TipoUsuario CASCADE CONSTRAINTS ;
+ALTER TABLE solicitud ADD CONSTRAINT solicitud_pk PRIMARY KEY ( id_solicitud );
 
-DROP TABLE Usuario CASCADE CONSTRAINTS ;
+CREATE TABLE tipousuario (
+    id_tipo       NUMBER(1) NOT NULL,
+    nombre_tipo   VARCHAR2(20) NOT NULL
+);
 
-CREATE TABLE Equipo
-  (
-    id_equipo  NUMBER (4) NOT NULL ,
-    disponible CHAR (1) NOT NULL
-  ) ;
-ALTER TABLE Equipo ADD CONSTRAINT Equipo_PK PRIMARY KEY ( id_equipo ) ;
+ALTER TABLE tipousuario ADD CONSTRAINT tipousuario_pk PRIMARY KEY ( id_tipo );
 
-CREATE TABLE EstadoSeg
-  (
-    id_estado NUMBER (1) NOT NULL ,
-    nombre    VARCHAR2 (20) NOT NULL
-  ) ;
-ALTER TABLE EstadoSeg ADD CONSTRAINT EstadoSeg_PK PRIMARY KEY ( id_estado ) ;
+CREATE TABLE usuario (
+    rut                   VARCHAR2(10) NOT NULL,
+    nombre                VARCHAR2(250) NOT NULL,
+    clave                 VARCHAR2(20) NOT NULL,
+    email                 VARCHAR2(25) NOT NULL,
+    fecha_nac             DATE NOT NULL,
+    tipousuario_id_tipo   NUMBER(1) NOT NULL
+);
 
-CREATE TABLE EstadoSol
-  (
-    id_estado NUMBER (1) NOT NULL ,
-    nombre    VARCHAR2 (20) NOT NULL
-  ) ;
-ALTER TABLE EstadoSol ADD CONSTRAINT EstadoSol_PK PRIMARY KEY ( id_estado ) ;
+ALTER TABLE usuario ADD CONSTRAINT usuario_pk PRIMARY KEY ( rut );
 
-CREATE TABLE Factura
-  (
-    id_factura    NUMBER (4) NOT NULL ,
-    monto_factura NUMBER (6) NOT NULL ,
-    fecha_emision DATE NOT NULL ,
-    cuotas        NUMBER (2) ,
-    id_solicitud  NUMBER (4) NOT NULL ,
-    id_tipo       NUMBER (1) NOT NULL
-  ) ;
-CREATE UNIQUE INDEX Factura__IDX ON Factura
-  (
-    id_solicitud ASC
-  )
-  ;
-  ALTER TABLE Factura ADD CONSTRAINT Factura_PK PRIMARY KEY ( id_factura ) ;
+ALTER TABLE solicitud
+    ADD CONSTRAINT solicitud_equipo_fk FOREIGN KEY ( equipo_id_equipo )
+        REFERENCES equipo ( id_equipo );
 
-CREATE TABLE Inspeccion
-  (
-    id_inspeccion  NUMBER (4) NOT NULL ,
-    fecha_visita   DATE NOT NULL ,
-    observaciones  VARCHAR2 (500) NOT NULL ,
-    seguimiento    NUMBER (4) NOT NULL ,
-    id_seguimiento NUMBER (4) NOT NULL ,
-    id_equipo      NUMBER (4) NOT NULL
-  ) ;
-ALTER TABLE Inspeccion ADD CONSTRAINT Inspeccion_PK PRIMARY KEY ( id_inspeccion, id_seguimiento ) ;
+ALTER TABLE solicitud
+    ADD CONSTRAINT solicitud_estadosol_fk FOREIGN KEY ( estadosol_id_estado )
+        REFERENCES estadosol ( id_estado );
 
-CREATE TABLE Seguimiento
-  (
-    id_seguimiento  NUMBER (4) NOT NULL ,
-    inicio_servicio DATE NOT NULL ,
-    fin_servicio    DATE ,
-    numero_visitas  NUMBER (4) NOT NULL ,
-    id_estado       NUMBER (1) NOT NULL ,
-    id_solicitud    NUMBER (4) NOT NULL
-  ) ;
-CREATE UNIQUE INDEX Seguimiento__IDX ON Seguimiento
-  (
-    id_solicitud ASC
-  )
-  ;
-  ALTER TABLE Seguimiento ADD CONSTRAINT Seguimiento_PK PRIMARY KEY ( id_seguimiento ) ;
+ALTER TABLE solicitud
+    ADD CONSTRAINT solicitud_inspeccion_fk FOREIGN KEY ( inspeccion_id_inspeccion )
+        REFERENCES inspeccion ( id_inspeccion );
 
-CREATE TABLE Servicio
-  (
-    id_servicio NUMBER (1) NOT NULL ,
-    nombre      VARCHAR2 (25) NOT NULL ,
-    descripcion VARCHAR2 (200) NOT NULL ,
-    costo       NUMBER (6) NOT NULL
-  ) ;
-ALTER TABLE Servicio ADD CONSTRAINT Servicio_PK PRIMARY KEY ( id_servicio ) ;
+ALTER TABLE solicitud
+    ADD CONSTRAINT solicitud_servicio_fk FOREIGN KEY ( servicio_id_servicio )
+        REFERENCES servicio ( id_servicio );
 
-CREATE TABLE Solicitud
-  (
-    id_solicitud NUMBER (4) NOT NULL ,
-    fecha_sol    DATE NOT NULL ,
-    monto        NUMBER (6) NOT NULL ,
-    direccion    VARCHAR2 (250) NOT NULL ,
-    rut          VARCHAR2 (10) NOT NULL ,
-    id_estado    NUMBER (1) NOT NULL ,
-    id_servicio  NUMBER (1) NOT NULL
-  ) ;
-ALTER TABLE Solicitud ADD CONSTRAINT Solicitud_PK PRIMARY KEY ( id_solicitud ) ;
+ALTER TABLE solicitud
+    ADD CONSTRAINT solicitud_usuario_fk FOREIGN KEY ( usuario_rut )
+        REFERENCES usuario ( rut );
 
-CREATE TABLE TipoPago
-  (
-    id_tipo NUMBER (1) NOT NULL ,
-    nombre  VARCHAR2 (25) NOT NULL
-  ) ;
-ALTER TABLE TipoPago ADD CONSTRAINT TipoPago_PK PRIMARY KEY ( id_tipo ) ;
+ALTER TABLE usuario
+    ADD CONSTRAINT usuario_tipousuario_fk FOREIGN KEY ( tipousuario_id_tipo )
+        REFERENCES tipousuario ( id_tipo );
 
-CREATE TABLE TipoUsuario
-  (
-    id_tipo     NUMBER (1) NOT NULL ,
-    nombre_tipo VARCHAR2 (20) NOT NULL
-  ) ;
-ALTER TABLE TipoUsuario ADD CONSTRAINT TipoUsuario_PK PRIMARY KEY ( id_tipo ) ;
+ALTER TABLE solicitud
+    ADD CONSTRAINT solicitud_equipo_fk FOREIGN KEY ( equipo_id_equipo )
+        REFERENCES equipo ( id_equipo );
 
-CREATE TABLE Usuario
-  (
-    rut       VARCHAR2 (10) NOT NULL ,
-    nombre    VARCHAR2 (250) NOT NULL ,
-    clave     VARCHAR2 (20) NOT NULL ,
-    email     VARCHAR2 (25) NOT NULL ,
-    fecha_nac DATE NOT NULL ,
-    id_tipo   NUMBER (1) NOT NULL
-  ) ;
-ALTER TABLE Usuario ADD CONSTRAINT Usuario_PK PRIMARY KEY ( rut ) ;
+ALTER TABLE solicitud
+    ADD CONSTRAINT solicitud_estadosol_fk FOREIGN KEY ( estadosol_id_estado )
+        REFERENCES estadosol ( id_estado );
 
-ALTER TABLE Factura ADD CONSTRAINT Factura_Solicitud_FK FOREIGN KEY ( id_solicitud ) REFERENCES Solicitud ( id_solicitud ) ;
+ALTER TABLE solicitud
+    ADD CONSTRAINT solicitud_inspeccion_fk FOREIGN KEY ( inspeccion_id_inspeccion )
+        REFERENCES inspeccion ( id_inspeccion );
 
-ALTER TABLE Factura ADD CONSTRAINT Factura_TipoPago_FK FOREIGN KEY ( id_tipo ) REFERENCES TipoPago ( id_tipo ) ;
+ALTER TABLE solicitud
+    ADD CONSTRAINT solicitud_servicio_fk FOREIGN KEY ( servicio_id_servicio )
+        REFERENCES servicio ( id_servicio );
 
-ALTER TABLE Inspeccion ADD CONSTRAINT Inspeccion_Equipo_FK FOREIGN KEY ( id_equipo ) REFERENCES Equipo ( id_equipo ) ;
+ALTER TABLE solicitud
+    ADD CONSTRAINT solicitud_usuario_fk FOREIGN KEY ( usuario_rut )
+        REFERENCES usuario ( rut );
 
-ALTER TABLE Inspeccion ADD CONSTRAINT Inspeccion_Seguimiento_FK FOREIGN KEY ( id_seguimiento ) REFERENCES Seguimiento ( id_seguimiento ) ;
+ALTER TABLE usuario
+    ADD CONSTRAINT usuario_tipousuario_fk FOREIGN KEY ( tipousuario_id_tipo )
+        REFERENCES tipousuario ( id_tipo );
 
-ALTER TABLE Seguimiento ADD CONSTRAINT Seguimiento_EstadoSeg_FK FOREIGN KEY ( id_estado ) REFERENCES EstadoSeg ( id_estado ) ;
-
-ALTER TABLE Seguimiento ADD CONSTRAINT Seguimiento_Solicitud_FK FOREIGN KEY ( id_solicitud ) REFERENCES Solicitud ( id_solicitud ) ;
-
-ALTER TABLE Solicitud ADD CONSTRAINT Solicitud_EstadoSol_FK FOREIGN KEY ( id_estado ) REFERENCES EstadoSol ( id_estado ) ;
-
-ALTER TABLE Solicitud ADD CONSTRAINT Solicitud_Servicio_FK FOREIGN KEY ( id_servicio ) REFERENCES Servicio ( id_servicio ) ;
-
-ALTER TABLE Solicitud ADD CONSTRAINT Solicitud_Usuario_FK FOREIGN KEY ( rut ) REFERENCES Usuario ( rut ) ;
-
-ALTER TABLE Usuario ADD CONSTRAINT Usuario_TipoUsuario_FK FOREIGN KEY ( id_tipo ) REFERENCES TipoUsuario ( id_tipo ) ;
 
 
 -- Informe de Resumen de Oracle SQL Developer Data Modeler: 
 -- 
--- CREATE TABLE                            11
--- CREATE INDEX                             2
--- ALTER TABLE                             21
+-- CREATE TABLE                             7
+-- CREATE INDEX                             1
+-- ALTER TABLE                             19
 -- CREATE VIEW                              0
+-- ALTER VIEW                               0
 -- CREATE PACKAGE                           0
 -- CREATE PACKAGE BODY                      0
 -- CREATE PROCEDURE                         0
@@ -184,6 +150,7 @@ ALTER TABLE Usuario ADD CONSTRAINT Usuario_TipoUsuario_FK FOREIGN KEY ( id_tipo 
 -- CREATE ROLLBACK SEGMENT                  0
 -- CREATE SEQUENCE                          0
 -- CREATE MATERIALIZED VIEW                 0
+-- CREATE MATERIALIZED VIEW LOG             0
 -- CREATE SYNONYM                           0
 -- CREATE TABLESPACE                        0
 -- CREATE USER                              0
@@ -192,6 +159,10 @@ ALTER TABLE Usuario ADD CONSTRAINT Usuario_TipoUsuario_FK FOREIGN KEY ( id_tipo 
 -- DROP DATABASE                            0
 -- 
 -- REDACTION POLICY                         0
+-- 
+-- ORDS DROP SCHEMA                         0
+-- ORDS ENABLE SCHEMA                       0
+-- ORDS ENABLE OBJECT                       0
 -- 
 -- ERRORS                                   0
 -- WARNINGS                                 0
