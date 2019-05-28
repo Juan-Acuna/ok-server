@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Modelos\BancoEstado\" />
+    <Folder Include="Modelos\Transbank\" />
     <Folder Include="Modelos\OKCasa\" />
   </ItemGroup>
 
