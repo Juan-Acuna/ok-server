@@ -42,16 +42,16 @@ CREATE TABLE solicitud (
     direccion                  VARCHAR2(50) NOT NULL,
     creacion                   DATE NOT NULL,
     fin                        DATE,
-    usuario_rut                VARCHAR2(10) NOT NULL,
-    estadosol_id_estado        NUMBER(1) NOT NULL,
-    servicio_id_servicio       NUMBER(1) NOT NULL,
-    equipo_id_equipo           NUMBER(4) NOT NULL,
-    inspeccion_id_inspeccion   NUMBER(4) NOT NULL
+    usuario                    VARCHAR2(10) NOT NULL,
+    id_estado        		   NUMBER(1) NOT NULL,
+    id_servicio       		   NUMBER(1) NOT NULL,
+    id_equipo           	   NUMBER(4) NOT NULL,
+    id_inspeccion   		   NUMBER(4) NOT NULL
 );
 
 CREATE UNIQUE INDEX solicitud__idx ON
     solicitud (
-        inspeccion_id_inspeccion
+        id_inspeccion
     ASC );
 
 ALTER TABLE solicitud ADD CONSTRAINT solicitud_pk PRIMARY KEY ( id_solicitud );
@@ -69,57 +69,57 @@ CREATE TABLE usuario (
     clave                 VARCHAR2(20) NOT NULL,
     email                 VARCHAR2(25) NOT NULL,
     fecha_nac             DATE NOT NULL,
-    tipousuario_id_tipo   NUMBER(1) NOT NULL
+    id_tipo   			  NUMBER(1) NOT NULL
 );
 
 ALTER TABLE usuario ADD CONSTRAINT usuario_pk PRIMARY KEY ( rut );
 
 ALTER TABLE solicitud
-    ADD CONSTRAINT solicitud_equipo_fk FOREIGN KEY ( equipo_id_equipo )
+    ADD CONSTRAINT solicitud_equipo_fk FOREIGN KEY ( id_equipo )
         REFERENCES equipo ( id_equipo );
 
 ALTER TABLE solicitud
-    ADD CONSTRAINT solicitud_estadosol_fk FOREIGN KEY ( estadosol_id_estado )
+    ADD CONSTRAINT solicitud_estadosol_fk FOREIGN KEY ( id_estado )
         REFERENCES estadosol ( id_estado );
 
 ALTER TABLE solicitud
-    ADD CONSTRAINT solicitud_inspeccion_fk FOREIGN KEY ( inspeccion_id_inspeccion )
+    ADD CONSTRAINT solicitud_inspeccion_fk FOREIGN KEY ( id_inspeccion )
         REFERENCES inspeccion ( id_inspeccion );
 
 ALTER TABLE solicitud
-    ADD CONSTRAINT solicitud_servicio_fk FOREIGN KEY ( servicio_id_servicio )
+    ADD CONSTRAINT solicitud_servicio_fk FOREIGN KEY ( id_servicio )
         REFERENCES servicio ( id_servicio );
 
 ALTER TABLE solicitud
-    ADD CONSTRAINT solicitud_usuario_fk FOREIGN KEY ( usuario_rut )
+    ADD CONSTRAINT solicitud_usuario_fk FOREIGN KEY ( usuario )
         REFERENCES usuario ( rut );
 
 ALTER TABLE usuario
-    ADD CONSTRAINT usuario_tipousuario_fk FOREIGN KEY ( tipousuario_id_tipo )
+    ADD CONSTRAINT usuario_tipousuario_fk FOREIGN KEY ( id_tipo )
         REFERENCES tipousuario ( id_tipo );
 
 ALTER TABLE solicitud
-    ADD CONSTRAINT solicitud_equipo_fk FOREIGN KEY ( equipo_id_equipo )
+    ADD CONSTRAINT solicitud_equipo_fk FOREIGN KEY ( id_equipo )
         REFERENCES equipo ( id_equipo );
 
 ALTER TABLE solicitud
-    ADD CONSTRAINT solicitud_estadosol_fk FOREIGN KEY ( estadosol_id_estado )
+    ADD CONSTRAINT solicitud_estadosol_fk FOREIGN KEY ( id_estado )
         REFERENCES estadosol ( id_estado );
 
 ALTER TABLE solicitud
-    ADD CONSTRAINT solicitud_inspeccion_fk FOREIGN KEY ( inspeccion_id_inspeccion )
+    ADD CONSTRAINT solicitud_inspeccion_fk FOREIGN KEY ( id_inspeccion )
         REFERENCES inspeccion ( id_inspeccion );
 
 ALTER TABLE solicitud
-    ADD CONSTRAINT solicitud_servicio_fk FOREIGN KEY ( servicio_id_servicio )
+    ADD CONSTRAINT solicitud_servicio_fk FOREIGN KEY ( id_servicio )
         REFERENCES servicio ( id_servicio );
 
 ALTER TABLE solicitud
-    ADD CONSTRAINT solicitud_usuario_fk FOREIGN KEY ( usuario_rut )
+    ADD CONSTRAINT solicitud_usuario_fk FOREIGN KEY ( usuario )
         REFERENCES usuario ( rut );
 
 ALTER TABLE usuario
-    ADD CONSTRAINT usuario_tipousuario_fk FOREIGN KEY ( tipousuario_id_tipo )
+    ADD CONSTRAINT usuario_tipousuario_fk FOREIGN KEY ( id_tipo )
         REFERENCES tipousuario ( id_tipo );
 
 
