@@ -7,6 +7,7 @@
 
 CREATE TABLE equipo (
     id_equipo    NUMBER(4) NOT NULL,
+	encargado    VARCHAR2(50) NOT NULL,
     disponible   CHAR(1) NOT NULL
 );
 
