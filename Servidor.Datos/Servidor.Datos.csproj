@@ -4,9 +4,4 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Modelos\BancoEstado\" />
-    <Folder Include="Modelos\Transbank\" />
-  </ItemGroup>
-
 </Project>
