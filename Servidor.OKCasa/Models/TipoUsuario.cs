@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Servidor.Datos.Modelos.OKCasa
+namespace Servidor.OKCasa.Models
 {
-    class TipoUsuario
+    public class TipoUsuario
     {
         public int Id_tipo { get; set; }
         public String Nombre_tipo { get; set; }

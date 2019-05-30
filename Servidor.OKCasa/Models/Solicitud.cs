@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Servidor.Datos.Modelos.OKCasa
+namespace Servidor.OKCasa.Models
 {
-    class Solicitud
+    public class Solicitud
     {
         public int Id_solicitud { get; set; }
         public String Direccion { get; set; }

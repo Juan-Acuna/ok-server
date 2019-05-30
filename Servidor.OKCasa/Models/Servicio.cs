@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Servidor.Datos.Modelos.OKCasa
+namespace Servidor.OKCasa.Models
 {
-    class Servicio
+    public class Servicio
     {
         public int Id_servicio { get; set; }
         public String Nombre { get; set; }

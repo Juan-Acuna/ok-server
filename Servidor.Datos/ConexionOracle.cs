@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Servidor.Datos
 {
-    class ConexionOracle
+    public class ConexionOracle
     {
         private const String SOURCE = "";
         private const String USER   = "";
@@ -54,15 +54,15 @@ namespace Servidor.Datos
                 return false;
             }
         }
-        public bool Update(dynamic objeto)
+        public static bool Update(dynamic objeto)
         {
             //return con.Update(objeto);//DAPPER
-            return true;//                         <----- ESTO SE TIENE QUE IR
+            return true;//                            <----- ESTO SE TIENE QUE IR
         }
-        public bool Delete(dynamic objeto)
+        public static bool Delete(dynamic objeto)
         {
             //return con.Delete(objeto);//DAPPER
-            return true;//                         <----- ESTO SE TIENE QUE IR
+            return true;//                            <----- ESTO SE TIENE QUE IR
         }
         /*public static bool InsertMany(List<dynamic> lista)
         {

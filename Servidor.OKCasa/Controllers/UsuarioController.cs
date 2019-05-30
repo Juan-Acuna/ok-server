@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Servidor.Datos;
+using Servidor.OKCasa.Models;
 
 namespace Servidor.OKCasa.Controllers
 {
@@ -11,30 +13,50 @@ namespace Servidor.OKCasa.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok();
+            return Ok(ConexionOracle.GetAll<Usuario>());
         }
         [HttpGet("/{rut}")]
         public IActionResult Get(String rut)
         {
-            return Ok();
+            return Ok(ConexionOracle.Get<Usuario>(rut));
         }
         //POST
         [HttpPost]
-        public IActionResult Post()
+        public IActionResult Post([FromBody]Usuario usuario)
         {
-            return Ok();
+            if (ConexionOracle.Insert(usuario))
+            {
+                return Ok();
+            }
+            else{
+                return BadRequest();
+            }
         }
         //PUT
         [HttpPut("/{rut}")]
-        public IActionResult Put(String rut)
+        public IActionResult Put(String rut,[FromBody]String clave,[FromBody]String email)
         {
-            return Ok();
+            if (ConexionOracle.Update(new Usuario() { Rut = rut, Clave=clave,Email=email}))
+            {
+                return Ok(ConexionOracle.Get<Usuario>(rut));
+            }else
+            {
+                return BadRequest();
+            }
+            
         }
         //DELETE
         [HttpDelete("/{rut}")]
         public IActionResult Delete(String rut)
         {
-            return Ok();
+            if (ConexionOracle.Update(new Usuario() { Rut = rut }))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }
