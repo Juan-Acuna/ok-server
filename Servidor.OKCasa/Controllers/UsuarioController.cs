@@ -19,6 +19,11 @@ namespace Servidor.OKCasa.Controllers
         {
             return Ok();
         }
+        [HttpGet("/{rut}")]
+        public IActionResult Get(String rut)
+        {
+            return Ok();
+        }
         //POST
         [HttpPost]
         public IActionResult Post()
@@ -26,14 +31,14 @@ namespace Servidor.OKCasa.Controllers
             return Ok();
         }
         //PUT
-        [HttpPut]
-        public IActionResult Put()
+        [HttpPut("/{rut}")]
+        public IActionResult Put(String rut)
         {
             return Ok();
         }
         //DELETE
-        [HttpDelete]
-        public IActionResult Delete()
+        [HttpDelete("/{rut}")]
+        public IActionResult Delete(String rut)
         {
             return Ok();
         }
