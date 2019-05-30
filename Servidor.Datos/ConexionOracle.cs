@@ -29,11 +29,13 @@ namespace Servidor.Datos
         }
         public static List<T> GetAll<T>()
         {
-            return con.GetAll<List<T>>();//DAPPER
+            return con.Query<T>("").AsList();//       <----- ESTO SE TIENE QUE IR
+            //return con.GetAll<List<T>>();//DAPPER
         }
         public static T Get<T>(int id)
         {
-            return con.Get<T>(id);//DAPPER
+            return con.QueryFirstOrDefault<T>("");//  <----- ESTO SE TIENE QUE IR
+            //return con.Get<T>(id);//DAPPER
         }
         public static T Get<T>(String rut)
         {
@@ -44,7 +46,7 @@ namespace Servidor.Datos
         {
             try
             {
-                con.Insert(objeto);//DAPPER
+                //con.Insert(objeto);//DAPPER
                 return true;
             }
             catch(Exception e)
@@ -54,11 +56,13 @@ namespace Servidor.Datos
         }
         public bool Update(dynamic objeto)
         {
-            return con.Update(objeto);//DAPPER
+            //return con.Update(objeto);//DAPPER
+            return true;//                         <----- ESTO SE TIENE QUE IR
         }
         public bool Delete(dynamic objeto)
         {
-            return con.Delete(objeto);//DAPPER
+            //return con.Delete(objeto);//DAPPER
+            return true;//                         <----- ESTO SE TIENE QUE IR
         }
         /*public static bool InsertMany(List<dynamic> lista)
         {
