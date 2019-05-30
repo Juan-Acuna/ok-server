@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servidor.Datos", "Servidor.Datos\Servidor.Datos.csproj", "{F20042A7-AD49-480B-A15F-4882E8487583}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servidor.Banco", "Servidor.Banco\Servidor.Banco.csproj", "{4F420BAE-CA87-4B0E-8C78-8CE2AFDEA08D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servidor.Banco", "Servidor.Banco\Servidor.Banco.csproj", "{4F420BAE-CA87-4B0E-8C78-8CE2AFDEA08D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servidor.Transbank", "Servidor.Transbank\Servidor.Transbank.csproj", "{678F9902-6BD2-47E6-B14C-2E79751298FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servidor.Transbank", "Servidor.Transbank\Servidor.Transbank.csproj", "{678F9902-6BD2-47E6-B14C-2E79751298FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Servidor.OKCasa", "Servidor.OKCasa\Servidor.OKCasa.csproj", "{30DAAC70-9911-468F-9710-0578D031CCF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servidor.OKCasa", "Servidor.OKCasa\Servidor.OKCasa.csproj", "{30DAAC70-9911-468F-9710-0578D031CCF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

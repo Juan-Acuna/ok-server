@@ -29,16 +29,52 @@ namespace Servidor.Datos
         }
         public static List<T> GetAll<T>()
         {
-            return con.GetAll<List<T>>();
+            return con.GetAll<List<T>>();//DAPPER
         }
         public static T Get<T>(int id)
         {
-            return con.Get<T>(id);
+            return con.Get<T>(id);//DAPPER
         }
         public static T Get<T>(String rut)
         {
             String sql = "SELECT FROM USUARIO WHERE rut='"+rut+"';";
             return con.QueryFirstOrDefault<T>(sql);
         }
+        public static bool Insert(dynamic objeto)
+        {
+            try
+            {
+                con.Insert(objeto);//DAPPER
+                return true;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+        }
+        public bool Update(dynamic objeto)
+        {
+            return con.Update(objeto);//DAPPER
+        }
+        public bool Delete(dynamic objeto)
+        {
+            return con.Delete(objeto);//DAPPER
+        }
+        /*public static bool InsertMany(List<dynamic> lista)
+        {
+            try
+            {
+                con.Insert(lista);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        public bool UpdateMany(List<dynamic> objeto)
+        {
+            return con.Update(objeto);
+        }*/
     }
 }
