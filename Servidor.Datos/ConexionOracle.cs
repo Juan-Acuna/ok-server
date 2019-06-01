@@ -1,8 +1,10 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using System;
 using Dapper;
+//using Dapper.Contrib;
 using System.Collections.Generic;
 using System.Text;
+using System.Data;
 
 namespace Servidor.Datos
 {
@@ -12,7 +14,7 @@ namespace Servidor.Datos
         private const String USER   = "";
         private const String PASSWD = "";
         private const String STRING_CONEXION = "DATA SOURCE="+SOURCE+";USER ID="+USER+";PASSWORD="+PASSWD+";";
-        private static OracleConnection con = new OracleConnection(STRING_CONEXION);
+        private static IDbConnection con = new OracleConnection(STRING_CONEXION);
         private static ConexionOracle _instance = new ConexionOracle();
         public static ConexionOracle Conexion
         {
@@ -29,8 +31,7 @@ namespace Servidor.Datos
         }
         public static List<T> GetAll<T>()
         {
-            return con.Query<T>("").AsList();//       <----- ESTO SE TIENE QUE IR
-            //return con.GetAll<List<T>>();//DAPPER
+            return con.GetAll<List<T>>();//DAPPER
         }
         public static T Get<T>(int id)
         {
