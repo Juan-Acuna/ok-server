@@ -1,16 +1,10 @@
 -- Generado por Oracle SQL Developer Data Modeler 4.0.0.833
---   en:        2019-05-24 19:17:17 CLT
+--   en:        2019-06-02 16:24:48 CLT
 --   sitio:      Oracle Database 11g
 --   tipo:      Oracle Database 11g
 
 
 
-
-DROP TABLE Cliente CASCADE CONSTRAINTS ;
-
-DROP TABLE TipoVivienda CASCADE CONSTRAINTS ;
-
-DROP TABLE Vivienda CASCADE CONSTRAINTS ;
 
 CREATE TABLE Cliente
   (
@@ -20,32 +14,53 @@ CREATE TABLE Cliente
   ) ;
 ALTER TABLE Cliente ADD CONSTRAINT Cliente_PK PRIMARY KEY ( rut ) ;
 
+CREATE TABLE Cuenta
+  (
+    id_cuenta NUMBER (10) NOT NULL ,
+    clave     VARCHAR2 (50) NOT NULL ,
+    fondos    NUMBER (10) NOT NULL ,
+    rut       VARCHAR2 (12) NOT NULL ,
+    id_tipo   NUMBER (1) NOT NULL
+  ) ;
+ALTER TABLE Cuenta ADD CONSTRAINT Cuenta_PK PRIMARY KEY ( id_cuenta ) ;
+
+CREATE TABLE TipoCuenta
+  (
+    id_tipo NUMBER (1) NOT NULL ,
+    nombre  VARCHAR2 (50) NOT NULL
+  ) ;
+ALTER TABLE TipoCuenta ADD CONSTRAINT TipoCuenta_PK PRIMARY KEY ( id_tipo ) ;
+
 CREATE TABLE TipoVivienda
   (
     id_tipo NUMBER (1) NOT NULL ,
-    nombre  VARCHAR2 (20) NOT NULL
+    nombre  VARCHAR2 NOT NULL
   ) ;
 ALTER TABLE TipoVivienda ADD CONSTRAINT TipoVivienda_PK PRIMARY KEY ( id_tipo ) ;
 
 CREATE TABLE Vivienda
   (
-    id_vivienda NUMBER (6) NOT NULL ,
+    id_vivienda NUMBER (10) NOT NULL ,
     direccion   VARCHAR2 (200) NOT NULL ,
-    cliente     VARCHAR2 (12) NOT NULL ,
+    rut         VARCHAR2 (12) NOT NULL ,
     id_tipo     NUMBER (1) NOT NULL
   ) ;
 ALTER TABLE Vivienda ADD CONSTRAINT Vivienda_PK PRIMARY KEY ( id_vivienda ) ;
 
-ALTER TABLE Vivienda ADD CONSTRAINT Vivienda_Cliente_FK FOREIGN KEY ( cliente ) REFERENCES Cliente ( rut ) ;
+ALTER TABLE Cuenta ADD CONSTRAINT Cuenta_Cliente_FK FOREIGN KEY ( rut ) REFERENCES Cliente ( rut ) ;
+
+ALTER TABLE Cuenta ADD CONSTRAINT Cuenta_TipoCuenta_FK FOREIGN KEY ( id_tipo ) REFERENCES TipoCuenta ( id_tipo ) ;
+
+ALTER TABLE Vivienda ADD CONSTRAINT Vivienda_Cliente_FK FOREIGN KEY ( rut ) REFERENCES Cliente ( rut ) ;
 
 ALTER TABLE Vivienda ADD CONSTRAINT Vivienda_TipoVivienda_FK FOREIGN KEY ( id_tipo ) REFERENCES TipoVivienda ( id_tipo ) ;
 
 
 -- Informe de Resumen de Oracle SQL Developer Data Modeler: 
 -- 
--- CREATE TABLE                             3
+-- CREATE TABLE                             5
 -- CREATE INDEX                             0
--- ALTER TABLE                              5
+-- ALTER TABLE                              9
 -- CREATE VIEW                              0
 -- CREATE PACKAGE                           0
 -- CREATE PACKAGE BODY                      0

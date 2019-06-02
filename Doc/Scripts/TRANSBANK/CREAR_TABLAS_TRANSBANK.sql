@@ -1,16 +1,17 @@
 -- Generado por Oracle SQL Developer Data Modeler 4.0.0.833
---   en:        2019-05-24 19:52:56 CLT
+--   en:        2019-06-02 15:27:28 CLT
 --   sitio:      Oracle Database 11g
 --   tipo:      Oracle Database 11g
 
 
 
 
-DROP TABLE Cliente CASCADE CONSTRAINTS ;
-
-DROP TABLE MedioPago CASCADE CONSTRAINTS ;
-
-DROP TABLE Transaccion CASCADE CONSTRAINTS ;
+CREATE TABLE Banco
+  (
+    id_banco NUMBER (4) NOT NULL ,
+    nombre   VARCHAR2 (100) NOT NULL
+  ) ;
+ALTER TABLE Banco ADD CONSTRAINT Banco_PK PRIMARY KEY ( id_banco ) ;
 
 CREATE TABLE Cliente
   (
@@ -19,6 +20,23 @@ CREATE TABLE Cliente
   ) ;
 ALTER TABLE Cliente ADD CONSTRAINT Cliente_PK PRIMARY KEY ( rut ) ;
 
+CREATE TABLE Clientev1
+  (
+    rut        VARCHAR2 (12) NOT NULL ,
+    nombre     VARCHAR2 (100) NOT NULL ,
+    nacimiento DATE NOT NULL
+  ) ;
+
+CREATE TABLE Cuenta
+  (
+    id_cuenta NUMBER (6) NOT NULL ,
+    fondos    NUMBER (10) NOT NULL ,
+    id_tipo   NUMBER (1) NOT NULL ,
+    id_banco  NUMBER (4) NOT NULL ,
+    rut       VARCHAR2 (12) NOT NULL
+  ) ;
+ALTER TABLE Cuenta ADD CONSTRAINT Cuenta_PK PRIMARY KEY ( id_cuenta ) ;
+
 CREATE TABLE MedioPago
   (
     id_medio NUMBER (1) NOT NULL ,
@@ -26,26 +44,39 @@ CREATE TABLE MedioPago
   ) ;
 ALTER TABLE MedioPago ADD CONSTRAINT MedioPago_PK PRIMARY KEY ( id_medio ) ;
 
+CREATE TABLE TipoCuenta
+  (
+    id_tipo NUMBER (1) NOT NULL ,
+    nombre  VARCHAR2 (50) NOT NULL
+  ) ;
+ALTER TABLE TipoCuenta ADD CONSTRAINT TipoCuenta_PK PRIMARY KEY ( id_tipo ) ;
+
 CREATE TABLE Transaccion
   (
-    id      NUMBER (6) NOT NULL ,
-    monto   NUMBER (6) NOT NULL ,
-    fecha   DATE NOT NULL ,
-    cliente VARCHAR2 (12) NOT NULL ,
-    medio   NUMBER (1) NOT NULL
+    id_transaccion NUMBER (6) NOT NULL ,
+    monto          NUMBER (6) NOT NULL ,
+    fecha          DATE NOT NULL ,
+    id_medio       NUMBER (1) NOT NULL ,
+    rut            VARCHAR2 (12) NOT NULL
   ) ;
-ALTER TABLE Transaccion ADD CONSTRAINT Transaccion_PK PRIMARY KEY ( id ) ;
+ALTER TABLE Transaccion ADD CONSTRAINT Transaccion_PK PRIMARY KEY ( id_transaccion ) ;
 
-ALTER TABLE Transaccion ADD CONSTRAINT Transaccion_Cliente_FK FOREIGN KEY ( cliente ) REFERENCES Cliente ( rut ) ;
+ALTER TABLE Cuenta ADD CONSTRAINT Cuenta_Banco_FK FOREIGN KEY ( id_banco ) REFERENCES Banco ( id_banco ) ;
 
-ALTER TABLE Transaccion ADD CONSTRAINT Transaccion_MedioPago_FK FOREIGN KEY ( medio ) REFERENCES MedioPago ( id_medio ) ;
+ALTER TABLE Cuenta ADD CONSTRAINT Cuenta_Cliente_FK FOREIGN KEY ( rut ) REFERENCES Cliente ( rut ) ;
+
+ALTER TABLE Cuenta ADD CONSTRAINT Cuenta_TipoCuenta_FK FOREIGN KEY ( id_tipo ) REFERENCES TipoCuenta ( id_tipo ) ;
+
+ALTER TABLE Transaccion ADD CONSTRAINT Transaccion_Cliente_FK FOREIGN KEY ( rut ) REFERENCES Cliente ( rut ) ;
+
+ALTER TABLE Transaccion ADD CONSTRAINT Transaccion_MedioPago_FK FOREIGN KEY ( id_medio ) REFERENCES MedioPago ( id_medio ) ;
 
 
 -- Informe de Resumen de Oracle SQL Developer Data Modeler: 
 -- 
--- CREATE TABLE                             3
+-- CREATE TABLE                             7
 -- CREATE INDEX                             0
--- ALTER TABLE                              5
+-- ALTER TABLE                             11
 -- CREATE VIEW                              0
 -- CREATE PACKAGE                           0
 -- CREATE PACKAGE BODY                      0

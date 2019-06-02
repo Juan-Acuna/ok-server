@@ -11,8 +11,8 @@ namespace Servidor.Datos
     public class ConexionOracle
     {
         private const String SOURCE = "";
-        private const String USER   = "";
-        private const String PASSWD = "";
+        private const String USER   = "Servidor_test_1";
+        private const String PASSWD = "servidor123";
         private const String STRING_CONEXION = "DATA SOURCE="+SOURCE+";USER ID="+USER+";PASSWORD="+PASSWD+";";
         private static IDbConnection con = new OracleConnection(STRING_CONEXION);
         private static ConexionOracle _instance = new ConexionOracle();
