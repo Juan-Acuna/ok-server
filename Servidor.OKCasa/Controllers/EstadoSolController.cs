@@ -10,7 +10,7 @@ using Servidor.OKCasa.Models;
 namespace Servidor.OKCasa.Controllers
 {
     [Produces("application/json")]
-    [Route("api/EstadoSol")]
+    [Route("ok-casa/EstadoSol")]
     public class EstadoSolController : Controller
     {
         //GET
@@ -19,15 +19,19 @@ namespace Servidor.OKCasa.Controllers
         {
             return Ok(ConexionOracle.GetAll<EstadoSol>());
         }
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             return Ok(ConexionOracle.Get<EstadoSol>(id));
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]EstadoSol estadoSol)
+        public IActionResult Post([FromBody]String nombre)
         {
+            var estadoSol = new EstadoSol
+            {
+                Nombre = nombre
+            };
             if (ConexionOracle.Insert(estadoSol))
             {
                 return Ok();
@@ -38,10 +42,10 @@ namespace Servidor.OKCasa.Controllers
             }
         }
         //DELETE
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (ConexionOracle.Update(new EstadoSol() { Id_estado = id }))
+            if (ConexionOracle.Delete(new EstadoSol() { Id_estado = id }))
             {
                 return Ok();
             }

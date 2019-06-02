@@ -10,7 +10,7 @@ using Servidor.OKCasa.Models;
 namespace Servidor.OKCasa.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Inspeccion")]
+    [Route("ok-casa/Inspeccion")]
     public class InspeccionController : Controller
     {
         //GET
@@ -19,15 +19,22 @@ namespace Servidor.OKCasa.Controllers
         {
             return Ok(ConexionOracle.GetAll<Inspeccion>());
         }
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             return Ok(ConexionOracle.Get<Inspeccion>(id));
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]Inspeccion inspeccion)
+        public IActionResult Post([FromBody]DateTime fecha, [FromBody]String observaciones,
+            [FromBody]int monto)
         {
+            var inspeccion = new Inspeccion
+            {
+                Fecha_visita = fecha,
+                Observaciones = observaciones,
+                Monto = monto
+            };
             if (ConexionOracle.Insert(inspeccion))
             {
                 return Ok();
@@ -38,7 +45,7 @@ namespace Servidor.OKCasa.Controllers
             }
         }
         //PUT
-        [HttpPut("/{id}")]
+        [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]String Observaciones)
         {
             if (ConexionOracle.Update(new Inspeccion() { Id_inspeccion = id, Observaciones=Observaciones }))
@@ -52,10 +59,10 @@ namespace Servidor.OKCasa.Controllers
 
         }
         //DELETE
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (ConexionOracle.Update(new Inspeccion() { Id_inspeccion = id }))
+            if (ConexionOracle.Delete(new Inspeccion() { Id_inspeccion = id }))
             {
                 return Ok();
             }

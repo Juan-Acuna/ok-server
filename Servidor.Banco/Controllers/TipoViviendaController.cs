@@ -5,34 +5,34 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Servidor.Datos;
-using Servidor.OKCasa.Models;
+using Servidor.Banco.Models;
 
-namespace Servidor.OKCasa.Controllers
+namespace Servidor.Banco.Controllers
 {
     [Produces("application/json")]
-    [Route("ok-casa/TipoUsuario")]
-    public class TipoUsuarioController : Controller
+    [Route("bacoestado/TipoVivienda")]
+    public class TipoViviendaController : Controller
     {
         //GET
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(ConexionOracle.GetAll<TipoUsuario>());
+            return Ok(ConexionOracle.GetAll<TipoVivienda>());
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(ConexionOracle.Get<TipoUsuario>(id));
+            return Ok(ConexionOracle.Get<TipoVivienda>(id));
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]String nombre)
+        public IActionResult Post([FromBody]int id, [FromBody]String nombre)
         {
-            TipoUsuario tipoUsuario = new TipoUsuario
+            var tipo = new TipoVivienda
             {
                 Nombre = nombre
             };
-            if (ConexionOracle.Insert(tipoUsuario))
+            if (ConexionOracle.Insert(tipo))
             {
                 return Ok();
             }
@@ -45,7 +45,7 @@ namespace Servidor.OKCasa.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (ConexionOracle.Delete(new TipoUsuario() { Id_tipo = id }))
+            if (ConexionOracle.Delete(new TipoVivienda { Id_tipo = id }))
             {
                 return Ok();
             }

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Servidor.OKCasa.Models
+namespace Servidor.Banco.Models
 {
-    public class TipoUsuario
+    public class Cliente
     {
-        public int Id_tipo { get; set; }
+        public String Rut { get; set; }
         public String Nombre { get; set; }
+        public DateTime Nacimiento { get; set; }
     }
 }

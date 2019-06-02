@@ -6,7 +6,7 @@ using Servidor.OKCasa.Models;
 namespace Servidor.OKCasa.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Usuario")]
+    [Route("ok-casa/Usuario")]
     public class UsuarioController : Controller
     {
         //GET
@@ -15,15 +15,26 @@ namespace Servidor.OKCasa.Controllers
         {
             return Ok(ConexionOracle.GetAll<Usuario>());
         }
-        [HttpGet("/{rut}")]
+        [HttpGet("{rut}")]
         public IActionResult Get(String rut)
         {
             return Ok(ConexionOracle.Get<Usuario>(rut));
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]Usuario usuario)
+        public IActionResult Post([FromBody]String rut, [FromBody]String nombre,
+            [FromBody]String clave, [FromBody]String email,DateTime nacimiento,
+            [FromBody]int tipo)
         {
+            Usuario usuario = new Usuario
+            {
+                Rut = rut,
+                Nombre = nombre,
+                Clave = clave,
+                Email = email,
+                Fecha_nac = nacimiento,
+                Id_tipo = tipo
+            };
             if (ConexionOracle.Insert(usuario))
             {
                 return Ok();
@@ -33,7 +44,7 @@ namespace Servidor.OKCasa.Controllers
             }
         }
         //PUT
-        [HttpPut("/{rut}")]
+        [HttpPut("{rut}")]
         public IActionResult Put(String rut,[FromBody]String clave,[FromBody]String email)
         {
             if (ConexionOracle.Update(new Usuario() { Rut = rut, Clave=clave,Email=email}))
@@ -46,10 +57,10 @@ namespace Servidor.OKCasa.Controllers
             
         }
         //DELETE
-        [HttpDelete("/{rut}")]
+        [HttpDelete("{rut}")]
         public IActionResult Delete(String rut)
         {
-            if (ConexionOracle.Update(new Usuario() { Rut = rut }))
+            if (ConexionOracle.Delete(new Usuario() { Rut = rut }))
             {
                 return Ok();
             }

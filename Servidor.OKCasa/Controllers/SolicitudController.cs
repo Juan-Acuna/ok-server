@@ -8,7 +8,7 @@ using Servidor.OKCasa.Models;
 namespace Servidor.OKCasa.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Solicitud")]
+    [Route("ok-casa/Solicitud")]
     public class SolicitudController : Controller
     {
         //GET
@@ -17,15 +17,25 @@ namespace Servidor.OKCasa.Controllers
         {
             return Ok(ConexionOracle.GetAll<Solicitud>());
         }
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             return Ok(ConexionOracle.Get<Solicitud>(id));
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]Solicitud solicitud)
+        public IActionResult Post([FromBody]String direccion, [FromBody]DateTime creacion,
+            [FromBody]String rut,[FromBody]int servicio,[FromBody]int equipo)
         {
+            Solicitud solicitud = new Solicitud
+            {
+                Direccion = direccion,
+                Creacion = creacion,
+                Usuario = rut,
+                Id_servicio = servicio,
+                Id_equipo = equipo,
+                Id_estado = 1   //   --------------> SUPONIENDO QUE ESTADO 1 = EN ESPERA.
+            };
             if (ConexionOracle.Insert(solicitud))
             {
                 return Ok();
@@ -36,7 +46,7 @@ namespace Servidor.OKCasa.Controllers
             }
         }
         //PUT
-        [HttpPut("/{id}")]
+        [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]int estado, [FromBody]DateTime fin)
         {
             if (ConexionOracle.Update(new Solicitud() { Id_solicitud=id, Id_estado=estado, Fin=fin }))
@@ -50,10 +60,10 @@ namespace Servidor.OKCasa.Controllers
 
         }
         //DELETE
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (ConexionOracle.Update(new Solicitud() { Id_solicitud = id }))
+            if (ConexionOracle.Delete(new Solicitud() { Id_solicitud = id }))
             {
                 return Ok();
             }

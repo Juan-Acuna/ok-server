@@ -5,37 +5,37 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Servidor.Datos;
-using Servidor.OKCasa.Models;
+using Servidor.Banco.Models;
 
-namespace Servidor.OKCasa.Controllers
+namespace Servidor.Banco.Controllers
 {
     [Produces("application/json")]
-    [Route("ok-casa/Servicio")]
-    public class ServicioController : Controller
+    [Route("bancoestado/Vivienda")]
+    public class ViviendaController : Controller
     {
         //GET
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(ConexionOracle.GetAll<Servicio>());
+            return Ok(ConexionOracle.GetAll<Vivienda>());
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(ConexionOracle.Get<Servicio>(id));
+            return Ok(ConexionOracle.Get<Vivienda>(id));
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]String nombre, [FromBody]String descripcion,
-            [FromBody]int costo)
+        public IActionResult Post([FromBody]int id, [FromBody]String direccion,
+            [FromBody]String rut, [FromBody]int tipo)
         {
-            Servicio servicio = new Servicio
+            var vivienda = new Vivienda
             {
-                Nombre = nombre,
-                Descripcion = descripcion,
-                Costo = costo
+                Direccion = direccion,
+                Rut = rut,
+                Id_tipo = tipo
             };
-            if (ConexionOracle.Insert(servicio))
+            if (ConexionOracle.Insert(vivienda))
             {
                 return Ok();
             }
@@ -46,23 +46,22 @@ namespace Servidor.OKCasa.Controllers
         }
         //PUT
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]String descripcion, [FromBody]int costo)
+        public IActionResult Put(int id, [FromBody]String rut)
         {
-            if (ConexionOracle.Update(new Servicio() { Id_servicio = id, Descripcion = descripcion, Costo = costo }))
+            if (ConexionOracle.Update(new Vivienda{ Id_vivienda = id, Rut = rut }))
             {
-                return Ok(ConexionOracle.Get<Servicio>(id));
+                return Ok(ConexionOracle.Get<Vivienda>(id));
             }
             else
             {
                 return BadRequest();
             }
-
         }
         //DELETE
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (ConexionOracle.Delete(new Servicio() { Id_servicio = id }))
+            if (ConexionOracle.Delete(new Vivienda{ Id_vivienda = id }))
             {
                 return Ok();
             }
