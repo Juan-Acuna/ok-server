@@ -8,6 +8,6 @@ namespace Servidor.OKCasa.Models
     {
         public int Id_equipo { get; set; }
         public String Encargado { get; set; }
-        public String Disponible { get; set; }
+        public char Disponible { get; set; }
     }
 }

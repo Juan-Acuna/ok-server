@@ -1,7 +1,7 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using System;
 using Dapper;
-//using Dapper.Contrib;
+using Dapper.Contrib.Extensions;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
@@ -16,6 +16,10 @@ namespace Servidor.Datos
         private const String STRING_CONEXION = "DATA SOURCE="+SOURCE+";USER ID="+USER+";PASSWORD="+PASSWD+";";
         private static IDbConnection con = new OracleConnection(STRING_CONEXION);
         private static ConexionOracle _instance = new ConexionOracle();
+        public ConexionOracle()
+        {
+            con.Open();
+        }
         public static ConexionOracle Conexion
         {
             get {
@@ -31,23 +35,24 @@ namespace Servidor.Datos
         }
         public static List<T> GetAll<T>()
         {
-            return con.GetAll<List<T>>();//DAPPER
+            //return con.GetAll<T>().AsList();
+            return new List<T>();
         }
         public static T Get<T>(int id)
         {
-            return con.QueryFirstOrDefault<T>("");//  <----- ESTO SE TIENE QUE IR
-            //return con.Get<T>(id);//DAPPER
+            //return con.Get<T>(id);
+            return default(T);
         }
         public static T Get<T>(String rut)
         {
             String sql = "SELECT FROM USUARIO WHERE rut='"+rut+"';";
             return con.QueryFirstOrDefault<T>(sql);
         }
-        public static bool Insert(dynamic objeto)
+        public static bool Insert(Object objeto)
         {
             try
             {
-                //con.Insert(objeto);//DAPPER
+                con.Insert(objeto);
                 return true;
             }
             catch(Exception e)
@@ -55,31 +60,13 @@ namespace Servidor.Datos
                 return false;
             }
         }
-        public static bool Update(dynamic objeto)
-        {
-            //return con.Update(objeto);//DAPPER
-            return true;//                            <----- ESTO SE TIENE QUE IR
-        }
-        public static bool Delete(dynamic objeto)
-        {
-            //return con.Delete(objeto);//DAPPER
-            return true;//                            <----- ESTO SE TIENE QUE IR
-        }
-        /*public static bool InsertMany(List<dynamic> lista)
-        {
-            try
-            {
-                con.Insert(lista);
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
-        public bool UpdateMany(List<dynamic> objeto)
+        public static bool Update(Object objeto)
         {
             return con.Update(objeto);
-        }*/
+        }
+        public static bool Delete(Object objeto)
+        {
+            return con.Delete(objeto);
+        }
     }
 }
