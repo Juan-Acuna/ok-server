@@ -1,5 +1,5 @@
 -- Generado por Oracle SQL Developer Data Modeler 4.0.0.833
---   en:        2019-06-02 15:27:28 CLT
+--   en:        2019-06-03 17:34:41 CLT
 --   sitio:      Oracle Database 11g
 --   tipo:      Oracle Database 11g
 
@@ -14,9 +14,7 @@ CREATE TABLE Banco
 ALTER TABLE Banco ADD CONSTRAINT Banco_PK PRIMARY KEY ( id_banco ) ;
 
 CREATE TABLE Cliente
-  (
-    rut    VARCHAR2 (12) NOT NULL ,
-    nombre VARCHAR2 (200) NOT NULL
+  ( rut VARCHAR2 (12) NOT NULL , nombre VARCHAR2 (200)
   ) ;
 ALTER TABLE Cliente ADD CONSTRAINT Cliente_PK PRIMARY KEY ( rut ) ;
 
