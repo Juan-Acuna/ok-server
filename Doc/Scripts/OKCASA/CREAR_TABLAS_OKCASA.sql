@@ -27,7 +27,7 @@ CREATE TABLE inspeccion
     fecha_visita           DATE NOT NULL ,
     observaciones          VARCHAR2 NOT NULL ,
     monto                  NUMBER (6) NOT NULL ,
-    solicitud_id_solicitud NUMBER NOT NULL
+    id_solicitud           NUMBER NOT NULL
   ) ;
 ALTER TABLE inspeccion ADD CONSTRAINT inspeccion_PK PRIMARY KEY ( id_inspeccion ) ;
 
@@ -46,10 +46,10 @@ CREATE TABLE solicitud
     direccion            VARCHAR2 (50) NOT NULL ,
     creacion             DATE NOT NULL ,
     fin                  DATE ,
-    estadosol_id_estado  NUMBER (1) NOT NULL ,
-    servicio_id_servicio NUMBER (1) NOT NULL ,
-    equipo_id_equipo     NUMBER (4) NOT NULL ,
-    usuario_rut          VARCHAR2 (12) NOT NULL
+    id_estado  NUMBER (1) NOT NULL ,
+    id_servicio NUMBER (1) NOT NULL ,
+    id_equipo     NUMBER (4) NOT NULL ,
+    rut          VARCHAR2 (12) NOT NULL
   ) ;
 ALTER TABLE solicitud ADD CONSTRAINT solicitud_PK PRIMARY KEY ( id_solicitud ) ;
 
@@ -67,21 +67,21 @@ CREATE TABLE usuario
     clave               VARCHAR2 (20) NOT NULL ,
     email               VARCHAR2 (25) NOT NULL ,
     fecha_nac           DATE NOT NULL ,
-    tipousuario_id_tipo NUMBER (1) NOT NULL
+    id_tipo NUMBER (1) NOT NULL
   ) ;
 ALTER TABLE usuario ADD CONSTRAINT usuario_PK PRIMARY KEY ( rut ) ;
 
-ALTER TABLE inspeccion ADD CONSTRAINT inspeccion_solicitud_FK FOREIGN KEY ( solicitud_id_solicitud ) REFERENCES solicitud ( id_solicitud ) ;
+ALTER TABLE inspeccion ADD CONSTRAINT inspeccion_solicitud_FK FOREIGN KEY ( id_solicitud ) REFERENCES solicitud ( id_solicitud ) ;
 
-ALTER TABLE solicitud ADD CONSTRAINT solicitud_equipo_FK FOREIGN KEY ( equipo_id_equipo ) REFERENCES equipo ( id_equipo ) ;
+ALTER TABLE solicitud ADD CONSTRAINT solicitud_equipo_FK FOREIGN KEY ( id_equipo ) REFERENCES equipo ( id_equipo ) ;
 
-ALTER TABLE solicitud ADD CONSTRAINT solicitud_estadosol_FK FOREIGN KEY ( estadosol_id_estado ) REFERENCES estadosol ( id_estado ) ;
+ALTER TABLE solicitud ADD CONSTRAINT solicitud_estadosol_FK FOREIGN KEY ( id_estado ) REFERENCES estadosol ( id_estado ) ;
 
-ALTER TABLE solicitud ADD CONSTRAINT solicitud_servicio_FK FOREIGN KEY ( servicio_id_servicio ) REFERENCES servicio ( id_servicio ) ;
+ALTER TABLE solicitud ADD CONSTRAINT solicitud_servicio_FK FOREIGN KEY ( id_servicio ) REFERENCES servicio ( id_servicio ) ;
 
-ALTER TABLE solicitud ADD CONSTRAINT solicitud_usuario_FK FOREIGN KEY ( usuario_rut ) REFERENCES usuario ( rut ) ;
+ALTER TABLE solicitud ADD CONSTRAINT solicitud_usuario_FK FOREIGN KEY ( rut ) REFERENCES usuario ( rut ) ;
 
-ALTER TABLE usuario ADD CONSTRAINT usuario_tipousuario_FK FOREIGN KEY ( tipousuario_id_tipo ) REFERENCES tipousuario ( id_tipo ) ;
+ALTER TABLE usuario ADD CONSTRAINT usuario_tipousuario_FK FOREIGN KEY ( id_tipo ) REFERENCES tipousuario ( id_tipo ) ;
 
 
 -- Informe de Resumen de Oracle SQL Developer Data Modeler: 
