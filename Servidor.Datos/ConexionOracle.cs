@@ -10,7 +10,7 @@ namespace Servidor.Datos
 {
     public class ConexionOracle
     {
-        private const String SOURCE = "";
+        private const String SOURCE = "LOCALHOST:1521";
         private const String USER   = "SERVIDOR_TEST_1";
         private const String PASSWD = "servidor123";
         private const String STRING_CONEXION = "DATA SOURCE="+SOURCE+";USER ID="+USER+";PASSWORD="+PASSWD+";";
