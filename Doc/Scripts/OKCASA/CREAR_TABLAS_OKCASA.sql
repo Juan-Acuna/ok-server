@@ -5,7 +5,6 @@
 
 
 
-
 CREATE TABLE equipo
   (
     id_equipo  NUMBER (4) NOT NULL ,
@@ -25,7 +24,7 @@ CREATE TABLE inspeccion
   (
     id_inspeccion          NUMBER (4) NOT NULL ,
     fecha_visita           DATE NOT NULL ,
-    observaciones          VARCHAR2 NOT NULL ,
+    observaciones          VARCHAR2(200) NOT NULL ,
     monto                  NUMBER (6) NOT NULL ,
     id_solicitud           NUMBER NOT NULL
   ) ;
@@ -46,10 +45,10 @@ CREATE TABLE solicitud
     direccion            VARCHAR2 (50) NOT NULL ,
     creacion             DATE NOT NULL ,
     fin                  DATE ,
-    id_estado  NUMBER (1) NOT NULL ,
-    id_servicio NUMBER (1) NOT NULL ,
-    id_equipo     NUMBER (4) NOT NULL ,
-    rut          VARCHAR2 (12) NOT NULL
+    id_estado            NUMBER (1) NOT NULL ,
+    id_servicio          NUMBER (1) NOT NULL ,
+    id_equipo            NUMBER (4) NOT NULL ,
+    rut                  VARCHAR2 (12) NOT NULL
   ) ;
 ALTER TABLE solicitud ADD CONSTRAINT solicitud_PK PRIMARY KEY ( id_solicitud ) ;
 
