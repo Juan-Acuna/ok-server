@@ -13,16 +13,17 @@ namespace Servidor.OKCasa.Controllers
     [Route("ok-casa/TipoUsuario")]
     public class TipoUsuarioController : Controller
     {
+        ConexionOracle con = ConexionOracle.Conexion;
         //GET
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(ConexionOracle.GetAll<TipoUsuario>());
+            return Ok(con.GetAll<TipoUsuario>());
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(ConexionOracle.Get<TipoUsuario>(id));
+            return Ok(con.Get<TipoUsuario>(id));
         }
         //POST
         [HttpPost]
@@ -32,7 +33,7 @@ namespace Servidor.OKCasa.Controllers
             {
                 Nombre = nombre
             };
-            if (ConexionOracle.Insert(tipoUsuario))
+            if (con.Insert(tipoUsuario))
             {
                 return Ok();
             }
@@ -45,7 +46,7 @@ namespace Servidor.OKCasa.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (ConexionOracle.Delete(new TipoUsuario() { Id_tipo = id }))
+            if (con.Delete(new TipoUsuario() { Id_tipo = id }))
             {
                 return Ok();
             }

@@ -13,16 +13,17 @@ namespace Servidor.Transbank.Controllers
     [Route("tbk/MedioPago")]
     public class MedioPagoController : Controller
     {
+        ConexionOracle con = ConexionOracle.Conexion;
         //GET
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(ConexionOracle.GetAll<MedioPago>());
+            return Ok(con.GetAll<MedioPago>());
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(ConexionOracle.Get<MedioPago>(id));
+            return Ok(con.Get<MedioPago>(id));
         }
         //POST
         [HttpPost]
@@ -32,7 +33,7 @@ namespace Servidor.Transbank.Controllers
             {
                 Nombre = nombre
             };
-            if (ConexionOracle.Insert(m))
+            if (con.Insert(m))
             {
                 return Ok();
             }
@@ -45,7 +46,7 @@ namespace Servidor.Transbank.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (ConexionOracle.Delete(new MedioPago { Id_medio = id }))
+            if (con.Delete(new MedioPago { Id_medio = id }))
             {
                 return Ok();
             }

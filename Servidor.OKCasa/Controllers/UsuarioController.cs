@@ -9,16 +9,17 @@ namespace Servidor.OKCasa.Controllers
     [Route("ok-casa/Usuario")]
     public class UsuarioController : Controller
     {
+        ConexionOracle con = ConexionOracle.Conexion;
         //GET
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(ConexionOracle.GetAll<Usuario>());
+            return Ok(con.GetAll<Usuario>());
         }
         [HttpGet("{rut}")]
         public IActionResult Get(String rut)
         {
-            return Ok(ConexionOracle.Get<Usuario>(rut));
+            return Ok(con.Get<Usuario>(rut));
         }
         //POST
         [HttpPost]
@@ -35,7 +36,7 @@ namespace Servidor.OKCasa.Controllers
                 Fecha_nac = nacimiento,
                 Id_tipo = tipo
             };
-            if (ConexionOracle.Insert(usuario))
+            if (con.Insert(usuario))
             {
                 return Ok();
             }
@@ -47,9 +48,9 @@ namespace Servidor.OKCasa.Controllers
         [HttpPut("{rut}")]
         public IActionResult Put(String rut,[FromBody]String clave,[FromBody]String email)
         {
-            if (ConexionOracle.Update(new Usuario() { Rut = rut, Clave=clave,Email=email}))
+            if (con.Update(new Usuario() { Rut = rut, Clave=clave,Email=email}))
             {
-                return Ok(ConexionOracle.Get<Usuario>(rut));
+                return Ok(con.Get<Usuario>(rut));
             }else
             {
                 return BadRequest();
@@ -60,7 +61,7 @@ namespace Servidor.OKCasa.Controllers
         [HttpDelete("{rut}")]
         public IActionResult Delete(String rut)
         {
-            if (ConexionOracle.Delete(new Usuario() { Rut = rut }))
+            if (con.Delete(new Usuario() { Rut = rut }))
             {
                 return Ok();
             }

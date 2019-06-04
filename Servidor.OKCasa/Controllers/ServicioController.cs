@@ -13,16 +13,17 @@ namespace Servidor.OKCasa.Controllers
     [Route("ok-casa/Servicio")]
     public class ServicioController : Controller
     {
+        ConexionOracle con = ConexionOracle.Conexion;
         //GET
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(ConexionOracle.GetAll<Servicio>());
+            return Ok(con.GetAll<Servicio>());
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(ConexionOracle.Get<Servicio>(id));
+            return Ok(con.Get<Servicio>(id));
         }
         //POST
         [HttpPost]
@@ -35,7 +36,7 @@ namespace Servidor.OKCasa.Controllers
                 Descripcion = descripcion,
                 Costo = costo
             };
-            if (ConexionOracle.Insert(servicio))
+            if (con.Insert(servicio))
             {
                 return Ok();
             }
@@ -48,9 +49,9 @@ namespace Servidor.OKCasa.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]String descripcion, [FromBody]int costo)
         {
-            if (ConexionOracle.Update(new Servicio() { Id_servicio = id, Descripcion = descripcion, Costo = costo }))
+            if (con.Update(new Servicio() { Id_servicio = id, Descripcion = descripcion, Costo = costo }))
             {
-                return Ok(ConexionOracle.Get<Servicio>(id));
+                return Ok(con.Get<Servicio>(id));
             }
             else
             {
@@ -62,7 +63,7 @@ namespace Servidor.OKCasa.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (ConexionOracle.Delete(new Servicio() { Id_servicio = id }))
+            if (con.Delete(new Servicio() { Id_servicio = id }))
             {
                 return Ok();
             }

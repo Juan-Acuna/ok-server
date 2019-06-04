@@ -11,16 +11,17 @@ namespace Servidor.OKCasa.Controllers
     [Route("ok-casa/Solicitud")]
     public class SolicitudController : Controller
     {
+        ConexionOracle con = ConexionOracle.Conexion;
         //GET
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(ConexionOracle.GetAll<Solicitud>());
+            return Ok(con.GetAll<Solicitud>());
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(ConexionOracle.Get<Solicitud>(id));
+            return Ok(con.Get<Solicitud>(id));
         }
         //POST
         [HttpPost]
@@ -36,7 +37,7 @@ namespace Servidor.OKCasa.Controllers
                 Id_equipo = equipo,
                 Id_estado = 1   //   --------------> SUPONIENDO QUE ESTADO 1 = EN ESPERA.
             };
-            if (ConexionOracle.Insert(solicitud))
+            if (con.Insert(solicitud))
             {
                 return Ok();
             }
@@ -49,9 +50,9 @@ namespace Servidor.OKCasa.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]int estado, [FromBody]DateTime fin)
         {
-            if (ConexionOracle.Update(new Solicitud() { Id_solicitud=id, Id_estado=estado, Fin=fin }))
+            if (con.Update(new Solicitud() { Id_solicitud=id, Id_estado=estado, Fin=fin }))
             {
-                return Ok(ConexionOracle.Get<Solicitud>(id));
+                return Ok(con.Get<Solicitud>(id));
             }
             else
             {
@@ -63,7 +64,7 @@ namespace Servidor.OKCasa.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (ConexionOracle.Delete(new Solicitud() { Id_solicitud = id }))
+            if (con.Delete(new Solicitud() { Id_solicitud = id }))
             {
                 return Ok();
             }

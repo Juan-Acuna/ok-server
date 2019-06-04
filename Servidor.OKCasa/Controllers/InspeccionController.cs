@@ -13,16 +13,17 @@ namespace Servidor.OKCasa.Controllers
     [Route("ok-casa/Inspeccion")]
     public class InspeccionController : Controller
     {
+        ConexionOracle con = ConexionOracle.Conexion;
         //GET
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(ConexionOracle.GetAll<Inspeccion>());
+            return Ok(con.GetAll<Inspeccion>());
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(ConexionOracle.Get<Inspeccion>(id));
+            return Ok(con.Get<Inspeccion>(id));
         }
         //POST
         [HttpPost]
@@ -35,7 +36,7 @@ namespace Servidor.OKCasa.Controllers
                 Observaciones = observaciones,
                 Monto = monto
             };
-            if (ConexionOracle.Insert(inspeccion))
+            if (con.Insert(inspeccion))
             {
                 return Ok();
             }
@@ -48,9 +49,9 @@ namespace Servidor.OKCasa.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]String Observaciones)
         {
-            if (ConexionOracle.Update(new Inspeccion() { Id_inspeccion = id, Observaciones=Observaciones }))
+            if (con.Update(new Inspeccion() { Id_inspeccion = id, Observaciones=Observaciones }))
             {
-                return Ok(ConexionOracle.Get<Inspeccion>(id));
+                return Ok(con.Get<Inspeccion>(id));
             }
             else
             {
@@ -62,7 +63,7 @@ namespace Servidor.OKCasa.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (ConexionOracle.Delete(new Inspeccion() { Id_inspeccion = id }))
+            if (con.Delete(new Inspeccion() { Id_inspeccion = id }))
             {
                 return Ok();
             }

@@ -18,7 +18,16 @@ namespace Servidor.Datos
         private static ConexionOracle _instance = new ConexionOracle();
         public ConexionOracle()
         {
-            con.Open();
+            try
+            {
+                con.Open();
+                Console.WriteLine("Conexion abierta...");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
         }
         public static ConexionOracle Conexion
         {
@@ -33,22 +42,30 @@ namespace Servidor.Datos
                 }
             }
         }
-        public static List<T> GetAll<T>()
+        public List<T> GetAll<T>()
         {
             //return con.GetAll<T>().AsList();
             return new List<T>();
         }
-        public static T Get<T>(int id)
+        public T Get<T>(int id)
         {
             //return con.Get<T>(id);
             return default(T);
         }
-        public static T Get<T>(String rut)
+        public T Get<T>(String rut)
         {
             String sql = "SELECT FROM USUARIO WHERE rut='"+rut+"';";
-            return con.QueryFirstOrDefault<T>(sql);
+            try
+            {
+                return con.QueryFirst<T>(sql);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return default(T);
+            }
         }
-        public static bool Insert(Object objeto)
+        public bool Insert(Object objeto)
         {
             try
             {
@@ -60,11 +77,11 @@ namespace Servidor.Datos
                 return false;
             }
         }
-        public static bool Update(Object objeto)
+        public bool Update(Object objeto)
         {
             return con.Update(objeto);
         }
-        public static bool Delete(Object objeto)
+        public bool Delete(Object objeto)
         {
             return con.Delete(objeto);
         }

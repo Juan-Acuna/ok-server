@@ -13,16 +13,17 @@ namespace Servidor.Transbank.Controllers
     [Route("tbk/Transaccion")]
     public class TransaccionController : Controller
     {
+        ConexionOracle con = ConexionOracle.Conexion;
         //GET
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(ConexionOracle.GetAll<Transaccion>());
+            return Ok(con.GetAll<Transaccion>());
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(ConexionOracle.Get<Transaccion>(id));
+            return Ok(con.Get<Transaccion>(id));
         }
         //POST
         [HttpPost]
@@ -35,7 +36,7 @@ namespace Servidor.Transbank.Controllers
                 Id_medio = medio,
                 Rut = rut
             };
-            if (ConexionOracle.Insert(t))
+            if (con.Insert(t))
             {
                 return Ok();
             }
@@ -48,7 +49,7 @@ namespace Servidor.Transbank.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (ConexionOracle.Delete(new Transaccion { Id_transaccion = id }))
+            if (con.Delete(new Transaccion { Id_transaccion = id }))
             {
                 return Ok();
             }

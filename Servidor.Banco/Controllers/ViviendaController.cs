@@ -13,16 +13,17 @@ namespace Servidor.Banco.Controllers
     [Route("bancoestado/Vivienda")]
     public class ViviendaController : Controller
     {
+        ConexionOracle con = ConexionOracle.Conexion;
         //GET
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(ConexionOracle.GetAll<Vivienda>());
+            return Ok(con.GetAll<Vivienda>());
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(ConexionOracle.Get<Vivienda>(id));
+            return Ok(con.Get<Vivienda>(id));
         }
         //POST
         [HttpPost]
@@ -35,7 +36,7 @@ namespace Servidor.Banco.Controllers
                 Rut = rut,
                 Id_tipo = tipo
             };
-            if (ConexionOracle.Insert(vivienda))
+            if (con.Insert(vivienda))
             {
                 return Ok();
             }
@@ -48,9 +49,9 @@ namespace Servidor.Banco.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]String rut)
         {
-            if (ConexionOracle.Update(new Vivienda{ Id_vivienda = id, Rut = rut }))
+            if (con.Update(new Vivienda{ Id_vivienda = id, Rut = rut }))
             {
-                return Ok(ConexionOracle.Get<Vivienda>(id));
+                return Ok(con.Get<Vivienda>(id));
             }
             else
             {
@@ -61,7 +62,7 @@ namespace Servidor.Banco.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (ConexionOracle.Delete(new Vivienda{ Id_vivienda = id }))
+            if (con.Delete(new Vivienda{ Id_vivienda = id }))
             {
                 return Ok();
             }

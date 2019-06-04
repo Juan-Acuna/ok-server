@@ -33,7 +33,6 @@ namespace Servidor.Transbank
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseMvc();
         }
     }

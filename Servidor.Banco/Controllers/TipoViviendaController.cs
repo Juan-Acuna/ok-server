@@ -13,16 +13,17 @@ namespace Servidor.Banco.Controllers
     [Route("bacoestado/TipoVivienda")]
     public class TipoViviendaController : Controller
     {
+        ConexionOracle con = ConexionOracle.Conexion;
         //GET
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(ConexionOracle.GetAll<TipoVivienda>());
+            return Ok(con.GetAll<TipoVivienda>());
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(ConexionOracle.Get<TipoVivienda>(id));
+            return Ok(con.Get<TipoVivienda>(id));
         }
         //POST
         [HttpPost]
@@ -32,7 +33,7 @@ namespace Servidor.Banco.Controllers
             {
                 Nombre = nombre
             };
-            if (ConexionOracle.Insert(tipo))
+            if (con.Insert(tipo))
             {
                 return Ok();
             }
@@ -45,7 +46,7 @@ namespace Servidor.Banco.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (ConexionOracle.Delete(new TipoVivienda { Id_tipo = id }))
+            if (con.Delete(new TipoVivienda { Id_tipo = id }))
             {
                 return Ok();
             }

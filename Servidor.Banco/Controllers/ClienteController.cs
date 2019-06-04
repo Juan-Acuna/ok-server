@@ -13,16 +13,17 @@ namespace Servidor.Banco.Controllers
     [Route("bancoestado/Cliente")]
     public class ClienteController : Controller
     {
+        ConexionOracle con = ConexionOracle.Conexion;
         //GET
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(ConexionOracle.GetAll<Cliente>());
+            return Ok(con.GetAll<Cliente>());
         }
         [HttpGet("{rut}")]
         public IActionResult Get(String rut)
         {
-            return Ok(ConexionOracle.Get<Cliente>(rut));
+            return Ok(con.Get<Cliente>(rut));
         }
         //POST
         [HttpPost]
@@ -34,7 +35,7 @@ namespace Servidor.Banco.Controllers
                 Nombre = nombre,
                 Nacimiento = nacimiento
             };
-            if (ConexionOracle.Insert(cliente))
+            if (con.Insert(cliente))
             {
                 return Ok();
             }
@@ -47,9 +48,9 @@ namespace Servidor.Banco.Controllers
         [HttpPut("{rut}")]
         public IActionResult Put(String rut, [FromBody]String nombre)
         {
-            if (ConexionOracle.Update(new Cliente{ Rut = rut, Nombre = nombre }))
+            if (con.Update(new Cliente{ Rut = rut, Nombre = nombre }))
             {
-                return Ok(ConexionOracle.Get<Cliente>(rut));
+                return Ok(con.Get<Cliente>(rut));
             }
             else
             {
@@ -60,7 +61,7 @@ namespace Servidor.Banco.Controllers
         [HttpDelete("{rut}")]
         public IActionResult Delete(String rut)
         {
-            if (ConexionOracle.Delete(new Cliente{ Rut = rut }))
+            if (con.Delete(new Cliente{ Rut = rut }))
             {
                 return Ok();
             }
