@@ -18,12 +18,12 @@ namespace Servidor.OKCasa.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(con.GetAll<Servicio>());
+            return Ok(con.GetAll<Servicio>(DataBaseConUser.OkCasa));
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(con.Get<Servicio>(id));
+            return Ok(con.Get<Servicio>(id, DataBaseConUser.OkCasa));
         }
         //POST
         [HttpPost]
@@ -36,7 +36,7 @@ namespace Servidor.OKCasa.Controllers
                 Descripcion = descripcion,
                 Costo = costo
             };
-            if (con.Insert(servicio))
+            if (con.Insert(servicio, DataBaseConUser.OkCasa))
             {
                 return Ok();
             }
@@ -49,9 +49,9 @@ namespace Servidor.OKCasa.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]String descripcion, [FromBody]int costo)
         {
-            if (con.Update(new Servicio() { Id_servicio = id, Descripcion = descripcion, Costo = costo }))
+            if (con.Update(new Servicio() { Id_servicio = id, Descripcion = descripcion, Costo = costo }, DataBaseConUser.OkCasa))
             {
-                return Ok(con.Get<Servicio>(id));
+                return Ok(con.Get<Servicio>(id, DataBaseConUser.OkCasa));
             }
             else
             {
@@ -63,7 +63,7 @@ namespace Servidor.OKCasa.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (con.Delete(new Servicio() { Id_servicio = id }))
+            if (con.Delete(new Servicio() { Id_servicio = id }, DataBaseConUser.OkCasa))
             {
                 return Ok();
             }

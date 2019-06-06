@@ -18,12 +18,12 @@ namespace Servidor.Transbank.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(con.GetAll<Cliente>());
+            return Ok(con.GetAll<Cliente>(DataBaseConUser.Transbank));
         }
         [HttpGet("{rut}")]
         public IActionResult Get(String rut)
         {
-            return Ok(con.Get<Cliente>(rut));
+            return Ok(con.Get<Cliente>(rut, DataBaseConUser.Transbank));
         }
         //POST
         [HttpPost]
@@ -34,7 +34,7 @@ namespace Servidor.Transbank.Controllers
                 Rut = rut,
                 Nombre = nombre
             };
-            if (con.Insert(cliente))
+            if (con.Insert(cliente, DataBaseConUser.Transbank))
             {
                 return Ok();
             }
@@ -47,9 +47,9 @@ namespace Servidor.Transbank.Controllers
         [HttpPut("{rut}")]
         public IActionResult Put(String rut, [FromBody]String nombre)
         {
-            if (con.Update(new Cliente { Rut = rut, Nombre = nombre }))
+            if (con.Update(new Cliente { Rut = rut, Nombre = nombre }, DataBaseConUser.Transbank))
             {
-                return Ok(con.Get<Cliente>(rut));
+                return Ok(con.Get<Cliente>(rut, DataBaseConUser.Transbank));
             }
             else
             {
@@ -60,7 +60,7 @@ namespace Servidor.Transbank.Controllers
         [HttpDelete("{rut}")]
         public IActionResult Delete(String rut)
         {
-            if (con.Delete(new Cliente { Rut = rut }))
+            if (con.Delete(new Cliente { Rut = rut }, DataBaseConUser.Transbank))
             {
                 return Ok();
             }

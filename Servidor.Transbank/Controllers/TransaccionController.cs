@@ -18,12 +18,12 @@ namespace Servidor.Transbank.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(con.GetAll<Transaccion>());
+            return Ok(con.GetAll<Transaccion>(DataBaseConUser.Transbank));
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(con.Get<Transaccion>(id));
+            return Ok(con.Get<Transaccion>(id, DataBaseConUser.Transbank));
         }
         //POST
         [HttpPost]
@@ -36,7 +36,7 @@ namespace Servidor.Transbank.Controllers
                 Id_medio = medio,
                 Rut = rut
             };
-            if (con.Insert(t))
+            if (con.Insert(t, DataBaseConUser.Transbank))
             {
                 return Ok();
             }
@@ -49,7 +49,7 @@ namespace Servidor.Transbank.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (con.Delete(new Transaccion { Id_transaccion = id }))
+            if (con.Delete(new Transaccion { Id_transaccion = id }, DataBaseConUser.Transbank))
             {
                 return Ok();
             }

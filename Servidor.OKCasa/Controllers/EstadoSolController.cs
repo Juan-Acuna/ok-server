@@ -18,12 +18,12 @@ namespace Servidor.OKCasa.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(con.GetAll<EstadoSol>());
+            return Ok(con.GetAll<EstadoSol>(DataBaseConUser.OkCasa));
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(con.Get<EstadoSol>(id));
+            return Ok(con.Get<EstadoSol>(id, DataBaseConUser.OkCasa));
         }
         //POST
         [HttpPost]
@@ -33,7 +33,7 @@ namespace Servidor.OKCasa.Controllers
             {
                 Nombre = nombre
             };
-            if (con.Insert(estadoSol))
+            if (con.Insert(estadoSol, DataBaseConUser.OkCasa))
             {
                 return Ok();
             }
@@ -46,7 +46,7 @@ namespace Servidor.OKCasa.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (con.Delete(new EstadoSol() { Id_estado = id }))
+            if (con.Delete(new EstadoSol() { Id_estado = id }, DataBaseConUser.OkCasa))
             {
                 return Ok();
             }

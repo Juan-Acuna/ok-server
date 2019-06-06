@@ -11,24 +11,11 @@ namespace Servidor.Datos
     public class ConexionOracle
     {
         private const String SOURCE = "LOCALHOST:1521";
-        private const String USER   = "SERVIDOR_TEST_1";
-        private const String PASSWD = "servidor123";
-        private const String STRING_CONEXION = "DATA SOURCE="+SOURCE+";USER ID="+USER+";PASSWORD="+PASSWD+ ";";
-        private static IDbConnection con = new OracleConnection(STRING_CONEXION);
+        private static String USER   = "SERVIDOR_TEST_";
+        private static String PASSWD = "servidor123";
+        private static String STRING_CONEXION = "DATA SOURCE="+SOURCE+";USER ID="+USER+";PASSWORD="+PASSWD+ ";";
+        private static IDbConnection con;
         private static ConexionOracle _instance = new ConexionOracle();
-        public ConexionOracle()
-        {
-            try
-            {
-                con.Open();
-                Console.WriteLine("Conexion abierta...");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            
-        }
         public static ConexionOracle Conexion
         {
             get {
@@ -42,32 +29,83 @@ namespace Servidor.Datos
                 }
             }
         }
-        public List<T> GetAll<T>() where T : class
+        public List<T> GetAll<T>(DataBaseConUser dbcu) where T : class
         {
-            return con.GetAll<T>().AsList();
+            switch (dbcu)
+            {
+                case DataBaseConUser.OkCasa:
+                    USER += "ok";
+                    break;
+                case DataBaseConUser.BancoEstado:
+                    USER += "be";
+                    break;
+                case DataBaseConUser.Transbank:
+                    USER += "tb";
+                    break;
+            }
+            using (con = new OracleConnection(STRING_CONEXION))
+            {
+                return con.GetAll<T>().AsList();
+            }
         }
-        public T Get<T>(int id) where T : class
+        public T Get<T>(int id, DataBaseConUser dbcu) where T : class
         {
-            return con.Get<T>(id);
+            switch (dbcu)
+            {
+                case DataBaseConUser.OkCasa:
+                    USER += "ok";
+                    break;
+                case DataBaseConUser.BancoEstado:
+                    USER += "be";
+                    break;
+                case DataBaseConUser.Transbank:
+                    USER += "tb";
+                    break;
+            }
+            using (con = new OracleConnection(STRING_CONEXION))
+            {
+                return con.Get<T>(id);
+            }
         }
-        public T Get<T>(String rut) where T : class
+        public T Get<T>(String rut, DataBaseConUser dbcu) where T : class
         {   //typeof(T).Name devuelve el nombre de la clase.
-            String sql = $"SELECT * FROM USUARIO WHERE rut='{rut}'";
-            try
+            switch (dbcu)
             {
-                return con.QueryFirstOrDefault<T>(sql);
+                case DataBaseConUser.OkCasa:
+                    USER += "ok";
+                    break;
+                case DataBaseConUser.BancoEstado:
+                    USER += "be";
+                    break;
+                case DataBaseConUser.Transbank:
+                    USER += "tb";
+                    break;
             }
-            catch (Exception e)
+            using (con = new OracleConnection(STRING_CONEXION))
             {
-                Console.WriteLine(e.Message);
-                return default(T);
+                return con.Get<T>(rut);
             }
         }
-        public bool Insert(Object objeto)
+        public bool Insert(Object objeto, DataBaseConUser dbcu)
         {
             try
             {
-                con.Insert(objeto);
+                switch (dbcu)
+                {
+                    case DataBaseConUser.OkCasa:
+                        USER += "ok";
+                        break;
+                    case DataBaseConUser.BancoEstado:
+                        USER += "be";
+                        break;
+                    case DataBaseConUser.Transbank:
+                        USER += "tb";
+                        break;
+                }
+                using (con = new OracleConnection(STRING_CONEXION))
+                {
+                    con.Insert(objeto);
+                }
                 return true;
             }
             catch(Exception e)
@@ -75,13 +113,51 @@ namespace Servidor.Datos
                 return false;
             }
         }
-        public bool Update(Object objeto)
+        public bool Update(Object objeto, DataBaseConUser dbcu)
         {
-            return con.Update(objeto);
+            switch (dbcu)
+            {
+                case DataBaseConUser.OkCasa:
+                    USER += "ok";
+                    break;
+                case DataBaseConUser.BancoEstado:
+                    USER += "be";
+                    break;
+                case DataBaseConUser.Transbank:
+                    USER += "tb";
+                    break;
+            }
+            using (con = new OracleConnection(STRING_CONEXION))
+            {
+                return con.Update(objeto);
+            }
+            
         }
-        public bool Delete(Object objeto)
+        public bool Delete(Object objeto, DataBaseConUser dbcu)
         {
-            return con.Delete(objeto);
+            switch (dbcu)
+            {
+                case DataBaseConUser.OkCasa:
+                    USER += "ok";
+                    break;
+                case DataBaseConUser.BancoEstado:
+                    USER += "be";
+                    break;
+                case DataBaseConUser.Transbank:
+                    USER += "tb";
+                    break;
+            }
+            using (con = new OracleConnection(STRING_CONEXION))
+            {
+                return con.Delete(objeto);
+            }
+            
         }
+    }
+    public enum DataBaseConUser
+    {
+        OkCasa,
+        BancoEstado,
+        Transbank
     }
 }

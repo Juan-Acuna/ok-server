@@ -18,12 +18,12 @@ namespace Servidor.OKCasa.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(con.GetAll<Equipo>());
+            return Ok(con.GetAll<Equipo>(DataBaseConUser.OkCasa));
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(con.Get<Equipo>(id));
+            return Ok(con.Get<Equipo>(id, DataBaseConUser.OkCasa));
         }
         //POST
         [HttpPost]
@@ -34,7 +34,7 @@ namespace Servidor.OKCasa.Controllers
                 Encargado = encargado,
                 Disponible = disponible,
             };
-            if (con.Insert(equipo))
+            if (con.Insert(equipo, DataBaseConUser.OkCasa))
             {
                 return Ok();
             }
@@ -47,9 +47,9 @@ namespace Servidor.OKCasa.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]char disponible)
         {
-            if (con.Update(new Equipo() { Id_equipo = id, Disponible=disponible}))
+            if (con.Update(new Equipo() { Id_equipo = id, Disponible=disponible}, DataBaseConUser.OkCasa))
             {
-                return Ok(con.Get<Equipo>(id));
+                return Ok(con.Get<Equipo>(id, DataBaseConUser.OkCasa));
             }
             else
             {
@@ -61,7 +61,7 @@ namespace Servidor.OKCasa.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (con.Delete(new Equipo() { Id_equipo = id }))
+            if (con.Delete(new Equipo() { Id_equipo = id }, DataBaseConUser.OkCasa))
             {
                 return Ok();
             }

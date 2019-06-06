@@ -18,12 +18,12 @@ namespace Servidor.Banco.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(con.GetAll<Cliente>());
+            return Ok(con.GetAll<Cliente>(DataBaseConUser.BancoEstado));
         }
         [HttpGet("{rut}")]
         public IActionResult Get(String rut)
         {
-            return Ok(con.Get<Cliente>(rut));
+            return Ok(con.Get<Cliente>(rut, DataBaseConUser.BancoEstado));
         }
         //POST
         [HttpPost]
@@ -35,7 +35,7 @@ namespace Servidor.Banco.Controllers
                 Nombre = nombre,
                 Nacimiento = nacimiento
             };
-            if (con.Insert(cliente))
+            if (con.Insert(cliente, DataBaseConUser.BancoEstado))
             {
                 return Ok();
             }
@@ -48,9 +48,9 @@ namespace Servidor.Banco.Controllers
         [HttpPut("{rut}")]
         public IActionResult Put(String rut, [FromBody]String nombre)
         {
-            if (con.Update(new Cliente{ Rut = rut, Nombre = nombre }))
+            if (con.Update(new Cliente{ Rut = rut, Nombre = nombre }, DataBaseConUser.BancoEstado))
             {
-                return Ok(con.Get<Cliente>(rut));
+                return Ok(con.Get<Cliente>(rut, DataBaseConUser.BancoEstado));
             }
             else
             {
@@ -61,7 +61,7 @@ namespace Servidor.Banco.Controllers
         [HttpDelete("{rut}")]
         public IActionResult Delete(String rut)
         {
-            if (con.Delete(new Cliente{ Rut = rut }))
+            if (con.Delete(new Cliente{ Rut = rut }, DataBaseConUser.BancoEstado))
             {
                 return Ok();
             }

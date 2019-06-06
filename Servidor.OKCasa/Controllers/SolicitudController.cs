@@ -16,12 +16,12 @@ namespace Servidor.OKCasa.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(con.GetAll<Solicitud>());
+            return Ok(con.GetAll<Solicitud>(DataBaseConUser.OkCasa));
         }
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(con.Get<Solicitud>(id));
+            return Ok(con.Get<Solicitud>(id, DataBaseConUser.OkCasa));
         }
         //POST
         [HttpPost]
@@ -37,7 +37,7 @@ namespace Servidor.OKCasa.Controllers
                 Id_equipo = equipo,
                 Id_estado = 1   //   --------------> SUPONIENDO QUE ESTADO 1 = EN ESPERA.
             };
-            if (con.Insert(solicitud))
+            if (con.Insert(solicitud, DataBaseConUser.OkCasa))
             {
                 return Ok();
             }
@@ -50,9 +50,9 @@ namespace Servidor.OKCasa.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]int estado, [FromBody]DateTime fin)
         {
-            if (con.Update(new Solicitud() { Id_solicitud=id, Id_estado=estado, Fin=fin }))
+            if (con.Update(new Solicitud() { Id_solicitud=id, Id_estado=estado, Fin=fin }, DataBaseConUser.OkCasa))
             {
-                return Ok(con.Get<Solicitud>(id));
+                return Ok(con.Get<Solicitud>(id, DataBaseConUser.OkCasa));
             }
             else
             {
@@ -64,7 +64,7 @@ namespace Servidor.OKCasa.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            if (con.Delete(new Solicitud() { Id_solicitud = id }))
+            if (con.Delete(new Solicitud() { Id_solicitud = id }, DataBaseConUser.OkCasa))
             {
                 return Ok();
             }
