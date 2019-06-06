@@ -51,11 +51,8 @@ namespace Servidor.Datos
             return con.Get<T>(id);
         }
         public T Get<T>(String rut)
-        {
-            switch()
+        {   //typeof(T).Name devuelve el nombre de la clase.
             String sql = $"SELECT * FROM USUARIO WHERE rut='{rut}'";
-            var algo = typeof(T).Name;
-            Console.WriteLine(algo);
             try
             {
                 return con.QueryFirstOrDefault<T>(sql);
