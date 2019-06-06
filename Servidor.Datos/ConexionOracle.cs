@@ -13,7 +13,7 @@ namespace Servidor.Datos
         private const String SOURCE = "LOCALHOST:1521";
         private const String USER   = "SERVIDOR_TEST_1";
         private const String PASSWD = "servidor123";
-        private const String STRING_CONEXION = "DATA SOURCE="+SOURCE+";USER ID="+USER+";PASSWORD="+PASSWD+ ";Integrated Security=no;";
+        private const String STRING_CONEXION = "DATA SOURCE="+SOURCE+";USER ID="+USER+";PASSWORD="+PASSWD+ ";";
         private static IDbConnection con = new OracleConnection(STRING_CONEXION);
         private static ConexionOracle _instance = new ConexionOracle();
         public ConexionOracle()
@@ -42,22 +42,23 @@ namespace Servidor.Datos
                 }
             }
         }
-        public List<T> GetAll<T>()
+        public List<T> GetAll<T>() where T : class
         {
-            //return con.GetAll<T>().AsList();
-            return new List<T>();
+            return con.GetAll<T>().AsList();
         }
-        public T Get<T>(int id)
+        public T Get<T>(int id) where T : class
         {
-            //return con.Get<T>(id);
-            return default(T);
+            return con.Get<T>(id);
         }
         public T Get<T>(String rut)
         {
-            String sql = "SELECT * FROM USUARIO WHERE rut='"+rut+"';";
+            switch()
+            String sql = $"SELECT * FROM USUARIO WHERE rut='{rut}'";
+            var algo = typeof(T).Name;
+            Console.WriteLine(algo);
             try
             {
-                return con.QueryFirst<T>(sql,commandType:CommandType.Text);
+                return con.QueryFirstOrDefault<T>(sql);
             }
             catch (Exception e)
             {

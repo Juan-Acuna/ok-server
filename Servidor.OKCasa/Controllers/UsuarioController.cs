@@ -19,7 +19,12 @@ namespace Servidor.OKCasa.Controllers
         [HttpGet("{rut}")]
         public IActionResult Get(String rut)
         {
-            return Ok(con.Get<Usuario>(rut));
+            var a = con.Get<Usuario>(rut);
+            if (a == null)
+            {
+                return Json(new {Mensaje = "No existe un usuario con ese rut" });
+            }
+            return Ok(a);
         }
         //POST
         [HttpPost]
