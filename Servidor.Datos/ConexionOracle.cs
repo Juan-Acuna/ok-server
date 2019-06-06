@@ -13,7 +13,6 @@ namespace Servidor.Datos
         private const String SOURCE = "LOCALHOST:1521";
         private static String USER   = "SERVIDOR_TEST_";
         private static String PASSWD = "servidor123";
-        private static String STRING_CONEXION = "DATA SOURCE="+SOURCE+";USER ID="+USER+";PASSWORD="+PASSWD+ ";";
         private static IDbConnection con;
         private static ConexionOracle _instance = new ConexionOracle();
         public static ConexionOracle Conexion
@@ -43,7 +42,7 @@ namespace Servidor.Datos
                     USER += "tb";
                     break;
             }
-            using (con = new OracleConnection(STRING_CONEXION))
+            using (con = new OracleConnection(StringConexion()))
             {
                 return con.GetAll<T>().AsList();
             }
@@ -62,7 +61,7 @@ namespace Servidor.Datos
                     USER += "tb";
                     break;
             }
-            using (con = new OracleConnection(STRING_CONEXION))
+            using (con = new OracleConnection(StringConexion()))
             {
                 return con.Get<T>(id);
             }
@@ -81,7 +80,7 @@ namespace Servidor.Datos
                     USER += "tb";
                     break;
             }
-            using (con = new OracleConnection(STRING_CONEXION))
+            using (con = new OracleConnection(StringConexion()))
             {
                 return con.Get<T>(rut);
             }
@@ -102,7 +101,7 @@ namespace Servidor.Datos
                         USER += "tb";
                         break;
                 }
-                using (con = new OracleConnection(STRING_CONEXION))
+                using (con = new OracleConnection(StringConexion()))
                 {
                     con.Insert(objeto);
                 }
@@ -127,7 +126,7 @@ namespace Servidor.Datos
                     USER += "tb";
                     break;
             }
-            using (con = new OracleConnection(STRING_CONEXION))
+            using (con = new OracleConnection(StringConexion()))
             {
                 return con.Update(objeto);
             }
@@ -147,12 +146,16 @@ namespace Servidor.Datos
                     USER += "tb";
                     break;
             }
-            using (con = new OracleConnection(STRING_CONEXION))
+            using (con = new OracleConnection(StringConexion()))
             {
                 return con.Delete(objeto);
             }
             
         }
+        private String StringConexion()
+        {
+            return "DATA SOURCE=" + SOURCE + ";USER ID=" + USER + ";PASSWORD=" + PASSWD + ";";
+    }
     }
     public enum DataBaseConUser
     {
