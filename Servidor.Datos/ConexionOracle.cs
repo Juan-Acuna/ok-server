@@ -13,7 +13,7 @@ namespace Servidor.Datos
         private const String SOURCE = "LOCALHOST:1521";
         private const String USER   = "SERVIDOR_TEST_1";
         private const String PASSWD = "servidor123";
-        private const String STRING_CONEXION = "DATA SOURCE="+SOURCE+";USER ID="+USER+";PASSWORD="+PASSWD+";";
+        private const String STRING_CONEXION = "DATA SOURCE="+SOURCE+";USER ID="+USER+";PASSWORD="+PASSWD+ ";Integrated Security=no;";
         private static IDbConnection con = new OracleConnection(STRING_CONEXION);
         private static ConexionOracle _instance = new ConexionOracle();
         public ConexionOracle()
@@ -54,10 +54,10 @@ namespace Servidor.Datos
         }
         public T Get<T>(String rut)
         {
-            String sql = "SELECT FROM USUARIO WHERE rut='"+rut+"';";
+            String sql = "SELECT * FROM USUARIO WHERE rut='"+rut+"';";
             try
             {
-                return con.QueryFirst<T>(sql);
+                return con.QueryFirst<T>(sql,commandType:CommandType.Text);
             }
             catch (Exception e)
             {
