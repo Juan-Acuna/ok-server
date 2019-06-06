@@ -50,7 +50,7 @@ namespace Servidor.Datos
         {
             return con.Get<T>(id);
         }
-        public T Get<T>(String rut)
+        public T Get<T>(String rut) where T : class
         {   //typeof(T).Name devuelve el nombre de la clase.
             String sql = $"SELECT * FROM USUARIO WHERE rut='{rut}'";
             try
