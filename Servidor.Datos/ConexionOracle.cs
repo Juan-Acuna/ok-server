@@ -3,7 +3,6 @@ using System;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
 
 namespace Servidor.Datos
