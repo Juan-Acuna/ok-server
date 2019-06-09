@@ -11,7 +11,7 @@ namespace Servidor.OKCasa.Models
         public String Nombre { get; set; }
         public String Clave { get; set; }
         public String Email { get; set; }
-        public DateTime Fecha_nac { get; set; }
-        public int Id_tipo { get; set; }
+        public DateTime? Fecha_nac { get; set; }
+        public short? Id_tipo { get; set; }
     }
 }

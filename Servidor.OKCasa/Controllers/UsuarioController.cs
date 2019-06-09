@@ -49,9 +49,9 @@ namespace Servidor.OKCasa.Controllers
         }
         //PUT
         [HttpPut("{rut}")]
-        public IActionResult Put(String rut,[FromBody]String clave,[FromBody]String email)
+        public IActionResult Put(String rut,[FromBody]dynamic data)
         {
-            if (con.Update(new Usuario() { Rut = rut, Clave=clave,Email=email}, DataBaseConUser.OkCasa))
+            if (con.Update(new Usuario() { Rut = rut, Clave=data.clave,Email=data.email}, DataBaseConUser.OkCasa))
             {
                 return Ok(con.Get<Usuario>(rut, DataBaseConUser.OkCasa));
             }else

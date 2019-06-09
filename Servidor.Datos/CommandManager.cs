@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Reflection;
 using System.Text;
 
 namespace Servidor.Datos
@@ -10,7 +11,6 @@ namespace Servidor.Datos
     {
         private OracleCommand _insert, _delete, _select, _update;
         private String insertar, borrar, buscar, actualizar;
-        private ConexionOracle conexion;
         private OracleConnection con;
         public CommandManager(OracleConnection conexion)
         {
@@ -69,7 +69,7 @@ namespace Servidor.Datos
             String val ="";
             if(id is String)
             {
-                SetFieldsForCommand<T>(out condicion, out val, id,true);
+                SetFieldsForCommand<T>(out condicion, out val, id,typeof(T).GetProperties()[0],true);
             }
             else
             {
@@ -101,7 +101,6 @@ namespace Servidor.Datos
                     int l = 0;
                     foreach (var item in m)
                     {
-
                         item.SetValue(t, obj[l]);
                         l++;
                     }
@@ -170,10 +169,12 @@ namespace Servidor.Datos
         public bool Update<T>(T objeto) where T : class, new()
         {
             String tabla = typeof(T).Name;
+            var miembros = typeof(T).GetProperties();
+            bool b = miembros[0].GetValue(objeto) is String;
             FormatearComando();
             String val = "";
             String condicion = "";
-            SetFieldsForCommand<T>(out condicion,out val,objeto);
+            SetFieldsForCommand<T>(out condicion,out val,objeto:objeto,idIsString:b);
             actualizar = actualizar.Replace("VALORES", val);
             actualizar = actualizar.Replace("TABLA", tabla);
             actualizar = actualizar.Replace("CONDICION", condicion);
@@ -243,12 +244,10 @@ namespace Servidor.Datos
             borrar = "DELETE FROM TABLA WHERE CONDICION";
 
         }
-        private void SetFieldsForCommand<T>(out String id, out String valores, dynamic idValue, bool idIsString = false) where T : class
+        private void SetFieldsForCommand<T>(out String id, out String valores, dynamic idValue,PropertyInfo pi, bool idIsString = false) where T : class
         {//SELECT
-            var miembros = typeof(T).GetProperties();
-            Console.WriteLine(miembros.Length);
             SetFieldsForCommand(out valores);
-            id = FormatId(miembros[0].Name, idValue, idIsString);
+            id = FormatId(pi.Name, idValue, idIsString);
         }
         private void SetFieldsForCommand(out String valores)
         {//SELECT ALL
@@ -279,7 +278,9 @@ namespace Servidor.Datos
                     {
                         vals[i] = "'" + f.GetValue(objeto).ToString() + "'";
                     }
-                    if (f.GetValue(objeto) is int)
+                    if (f.GetValue(objeto) is int || f.GetValue(objeto) is short 
+                        || f.GetValue(objeto) is Int32 || f.GetValue(objeto) is Int64
+                        || f.GetValue(objeto) is float || f.GetValue(objeto) is double)
                     {
                         vals[i] = f.GetValue(objeto).ToString();
                     }
