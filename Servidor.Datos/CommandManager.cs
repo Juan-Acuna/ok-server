@@ -45,7 +45,7 @@ namespace Servidor.Datos
                 return false;
             }
         }
-        public T Get<T>(dynamic id) where T : class
+        public T Get<T>(dynamic id) where T : class, new()
         {
             FormatearComando();
             String tabla = typeof(T).Name;
@@ -68,8 +68,11 @@ namespace Servidor.Datos
                 _select = new OracleCommand(buscar, con);
                 _select.CommandType = CommandType.Text;
                 OracleDataReader dReader = _select.ExecuteReader();
-                Object[] obj = new Object[typeof(T).GetFields().Length-1];
-                dReader.GetValues(obj);
+                Object[] obj = new Object[typeof(T).GetProperties().Length];
+                while (dReader.Read())
+                {
+                    dReader.GetValues(obj);
+                }
                 dReader.Close();
                 if (obj[0] == null)
                 {
@@ -77,11 +80,21 @@ namespace Servidor.Datos
                 }
                 else
                 {
-                    return obj as T;
+                    T t = new T();
+                    var m = typeof(T).GetProperties();
+                    int l = 0;
+                    foreach (var item in m)
+                    {
+
+                        item.SetValue(t, obj[l]);
+                        l++;
+                    }
+                    return t;
                 }
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return default(T);
             }
         }
@@ -186,10 +199,10 @@ namespace Servidor.Datos
         #endregion
         private void FormatearComando()
         {
-            insertar = "INSERT INTO TABLA VALUES(VALORES);";
-            buscar = "SELECT VALORES FROM TABLA WHERE CONDICION;";
-            actualizar = "UPDATE TABLA SET VALORES WHERE CONDICION;";
-            borrar = "DELETE FROM TABLA WHERE CONDICION;";
+            insertar = "INSERT INTO TABLA VALUES(VALORES)";
+            buscar = "SELECT VALORES FROM TABLA WHERE CONDICION";
+            actualizar = "UPDATE TABLA SET VALORES WHERE CONDICION";
+            borrar = "DELETE FROM TABLA WHERE CONDICION";
 
         }
         private void SetFieldsForCommand<T>(out String id, out String valores, dynamic idValue, bool idIsString = false) where T : class

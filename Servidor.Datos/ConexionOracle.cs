@@ -27,7 +27,7 @@ namespace Servidor.Datos
                 }
             }
         }
-        public List<T> GetAll<T>(DataBaseConUser dbcu) where T : class
+        public List<T> GetAll<T>(DataBaseConUser dbcu) where T : class, new()
         {
             switch (dbcu)
             {
@@ -47,7 +47,7 @@ namespace Servidor.Datos
                 return cmd.GetAll<T>();
             }
         }
-        public T Get<T>(dynamic id, DataBaseConUser dbcu) where T : class
+        public T Get<T>(dynamic id, DataBaseConUser dbcu) where T : class, new()
         {
             switch (dbcu)
             {
@@ -64,10 +64,11 @@ namespace Servidor.Datos
             using (con = new OracleConnection(StringConexion()))
             {
                 CommandManager cmd = new CommandManager(con);
+                con.Open();
                 return cmd.Get<T>(id);
             }
         }
-        public bool Insert(Object objeto, DataBaseConUser dbcu)
+        public bool Insert<T>(T objeto, DataBaseConUser dbcu) where T : class, new()
         {
             try
             {
@@ -94,7 +95,7 @@ namespace Servidor.Datos
                 return false;
             }
         }
-        public bool Update(Object objeto, DataBaseConUser dbcu)
+        public bool Update<T>(T objeto, DataBaseConUser dbcu) where T : class, new()
         {
             switch (dbcu)
             {
@@ -115,7 +116,7 @@ namespace Servidor.Datos
             }
             
         }
-        public bool Delete(Object objeto, DataBaseConUser dbcu)
+        public bool Delete<T>(T objeto, DataBaseConUser dbcu) where T : class, new()
         {
             switch (dbcu)
             {
