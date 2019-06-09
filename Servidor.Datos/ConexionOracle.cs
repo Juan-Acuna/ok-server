@@ -1,7 +1,7 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using System;
-using Dapper;
-using Dapper.Contrib.Extensions;
+//using Dapper;
+//using Dapper.Contrib.Extensions;
 using System.Collections.Generic;
 using System.Data;
 
@@ -12,7 +12,7 @@ namespace Servidor.Datos
         private const String SOURCE = "LOCALHOST:1521";
         private static String USER   = "SERVIDOR_TEST_";
         private static String PASSWD = "servidor123";
-        private static IDbConnection con;
+        private static OracleConnection con;
         private static ConexionOracle _instance = new ConexionOracle();
         public static ConexionOracle Conexion
         {
@@ -43,10 +43,11 @@ namespace Servidor.Datos
             }
             using (con = new OracleConnection(StringConexion()))
             {
-                return con.GetAll<T>().AsList();
+                CommandManager cmd = new CommandManager(con);
+                return cmd.GetAll<T>();
             }
         }
-        public T Get<T>(int id, DataBaseConUser dbcu) where T : class
+        public T Get<T>(dynamic id, DataBaseConUser dbcu) where T : class
         {
             switch (dbcu)
             {
@@ -62,26 +63,8 @@ namespace Servidor.Datos
             }
             using (con = new OracleConnection(StringConexion()))
             {
-                return con.Get<T>(id);
-            }
-        }
-        public T Get<T>(String rut, DataBaseConUser dbcu) where T : class
-        {   //typeof(T).Name devuelve el nombre de la clase.
-            switch (dbcu)
-            {
-                case DataBaseConUser.OkCasa:
-                    USER += "ok";
-                    break;
-                case DataBaseConUser.BancoEstado:
-                    USER += "be";
-                    break;
-                case DataBaseConUser.Transbank:
-                    USER += "tb";
-                    break;
-            }
-            using (con = new OracleConnection(StringConexion()))
-            {
-                return con.Get<T>(rut);
+                CommandManager cmd = new CommandManager(con);
+                return cmd.Get<T>(id);
             }
         }
         public bool Insert(Object objeto, DataBaseConUser dbcu)
@@ -102,9 +85,9 @@ namespace Servidor.Datos
                 }
                 using (con = new OracleConnection(StringConexion()))
                 {
-                    con.Insert(objeto);
+                    CommandManager cmd = new CommandManager(con);
+                    return cmd.Insert(objeto);
                 }
-                return true;
             }
             catch(Exception e)
             {
@@ -127,7 +110,8 @@ namespace Servidor.Datos
             }
             using (con = new OracleConnection(StringConexion()))
             {
-                return con.Update(objeto);
+                CommandManager cmd = new CommandManager(con);
+                return cmd.Update(objeto);
             }
             
         }
@@ -147,14 +131,15 @@ namespace Servidor.Datos
             }
             using (con = new OracleConnection(StringConexion()))
             {
-                return con.Delete(objeto);
+                CommandManager cmd = new CommandManager(con);
+                return cmd.Delete(objeto);
             }
             
         }
         private String StringConexion()
         {
             return "DATA SOURCE=" + SOURCE + ";USER ID=" + USER + ";PASSWORD=" + PASSWD + ";";
-    }
+        }
     }
     public enum DataBaseConUser
     {
