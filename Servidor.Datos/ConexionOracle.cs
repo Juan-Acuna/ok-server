@@ -44,6 +44,7 @@ namespace Servidor.Datos
             using (con = new OracleConnection(StringConexion()))
             {
                 CommandManager cmd = new CommandManager(con);
+                con.Open();
                 return cmd.GetAll<T>();
             }
         }
@@ -87,6 +88,7 @@ namespace Servidor.Datos
                 using (con = new OracleConnection(StringConexion()))
                 {
                     CommandManager cmd = new CommandManager(con);
+                    con.Open();
                     return cmd.Insert(objeto);
                 }
             }
@@ -112,6 +114,7 @@ namespace Servidor.Datos
             using (con = new OracleConnection(StringConexion()))
             {
                 CommandManager cmd = new CommandManager(con);
+                con.Open();
                 return cmd.Update(objeto);
             }
             
@@ -133,6 +136,7 @@ namespace Servidor.Datos
             using (con = new OracleConnection(StringConexion()))
             {
                 CommandManager cmd = new CommandManager(con);
+                con.Open();
                 return cmd.Delete(objeto);
             }
             

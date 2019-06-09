@@ -17,7 +17,7 @@ namespace Servidor.Datos
             this.con = conexion;
         }
         #region Comandos
-        public bool Insert<T>(T objeto) where T : class
+        public bool Insert<T>(T objeto) where T : class, new()
         {
 
             String tabla = typeof(T).Name;
@@ -98,7 +98,7 @@ namespace Servidor.Datos
                 return default(T);
             }
         }
-        public List<T> GetAll<T>() where T : class
+        public List<T> GetAll<T>() where T : class, new()
         {
             String tabla = typeof(T).Name;
             FormatearComando();
@@ -113,23 +113,45 @@ namespace Servidor.Datos
                 _select = new OracleCommand(buscar, con);
                 _select.CommandType = CommandType.Text;
                 OracleDataReader dReader = _select.ExecuteReader();
+                OracleDataReader dr = _select.ExecuteReader();
+                int cuentaObjetos = 0;
+                while (dr.Read())
+                {
+                    cuentaObjetos++;
+                }
+                dr.Close();
                 List<T> lista = new List<T>();
-                Object[] obj;
+                Object[][] obj = new Object[cuentaObjetos][];
+                int l = 0;
                 while (dReader.Read())
                 {
-                    obj = new Object[typeof(T).GetFields().Length];
-                    dReader.GetValues(obj);
-                    lista.Add(obj as T);
+                    obj[l] = new Object[typeof(T).GetProperties().Length];
+                    dReader.GetValues(obj[l]);
+                    l++;
                 }
                 dReader.Close();
+                T t;
+                var m = typeof(T).GetProperties();
+                foreach (var ob in obj)
+                {
+                    l = 0;
+                    t = new T();
+                    foreach (var item in m)
+                    {
+                        item.SetValue(t, ob[l]);
+                        l++;
+                    }
+                    lista.Add(t);
+                }
                 return lista;
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return null;
             }
         }
-        public bool Update<T>(T objeto) where T : class
+        public bool Update<T>(T objeto) where T : class, new()
         {
             String tabla = typeof(T).Name;
             FormatearComando();
@@ -160,7 +182,7 @@ namespace Servidor.Datos
             }
 
         }
-        public bool Delete<T>(T objeto) where T : class
+        public bool Delete<T>(T objeto) where T : class, new()
         {
             String tabla = typeof(T).Name;
             var miembros = typeof(T).GetProperties();
