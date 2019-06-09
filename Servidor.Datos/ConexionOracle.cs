@@ -69,7 +69,7 @@ namespace Servidor.Datos
                 return cmd.Get<T>(id);
             }
         }
-        public bool Insert<T>(T objeto, DataBaseConUser dbcu) where T : class, new()
+        public bool Insert<T>(T objeto, DataBaseConUser dbcu,bool autoId = true) where T : class, new()
         {
             try
             {
@@ -89,7 +89,7 @@ namespace Servidor.Datos
                 {
                     CommandManager cmd = new CommandManager(con);
                     con.Open();
-                    return cmd.Insert(objeto);
+                    return cmd.Insert(objeto,autoId);
                 }
             }
             catch(Exception e)

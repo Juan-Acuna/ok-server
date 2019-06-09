@@ -28,20 +28,18 @@ namespace Servidor.OKCasa.Controllers
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]String rut, [FromBody]String nombre,
-            [FromBody]String clave, [FromBody]String email,DateTime nacimiento,
-            [FromBody]int tipo)
+        public IActionResult Post([FromBody]Usuario data)
         {
             Usuario usuario = new Usuario
             {
-                Rut = rut,
-                Nombre = nombre,
-                Clave = clave,
-                Email = email,
-                Fecha_nac = nacimiento,
-                Id_tipo = tipo
+                Rut = data.Rut,
+                Nombre = data.Nombre,
+                Clave = data.Clave,
+                Email = data.Email,
+                Fecha_nac = data.Fecha_nac,
+                Id_tipo = data.Id_tipo
             };
-            if (con.Insert(usuario, DataBaseConUser.OkCasa))
+            if (con.Insert(usuario, DataBaseConUser.OkCasa,false))
             {
                 return Ok();
             }

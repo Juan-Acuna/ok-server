@@ -17,13 +17,28 @@ namespace Servidor.Datos
             this.con = conexion;
         }
         #region Comandos
-        public bool Insert<T>(T objeto) where T : class, new()
+        public bool Insert<T>(T objeto, bool autoId = true) where T : class, new()
         {
-
+            var miembros = typeof(T).GetProperties();
             String tabla = typeof(T).Name;
             FormatearComando();
             String val = "";
             SetFieldsForCommand<T>(out val, objeto);
+            if (autoId)
+            {
+                val = "null," + val;
+            }
+            else
+            {
+                if (miembros[0].GetValue(objeto) is String)
+                {
+                    val = "'"+ miembros[0].GetValue(objeto) + "'," + val;
+                }
+                else
+                {
+                    val = miembros[0].GetValue(objeto).ToString() + "," + val;
+                }
+            }
             insertar = insertar.Replace("VALORES", val);
             insertar = insertar.Replace("TABLA", tabla);
             Console.WriteLine("Val = " + insertar);
@@ -42,6 +57,7 @@ namespace Servidor.Datos
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return false;
             }
         }
@@ -241,46 +257,71 @@ namespace Servidor.Datos
         private void SetFieldsForCommand<T>(out String id,out String valores, T objeto, bool idIsString = false) where T : class
         {//UPDATE
             var miembros = typeof(T).GetProperties();
-            SetFieldsForCommand<T>(out valores,objeto);
+            SetFieldsForCommand<T>(out valores,objeto,true);
             var idValue = miembros[0].GetValue(objeto);
             id = FormatId(miembros[0].Name, idValue, idIsString);
         }
-        private void SetFieldsForCommand<T>(out String valores, T objeto) where T : class
+        private void SetFieldsForCommand<T>(out String valores, T objeto, bool update = false) where T : class
         {//INSERT
             var miembros = typeof(T).GetProperties();
             valores = "";
             int i = 0;
-            String[] vals = new String[miembros.Length-1];
+            String[] vals = new String[miembros.Length];
             foreach(var f in miembros)
             {
-                if(f.GetValue(objeto) is String)
+                if (f.GetValue(objeto) == null)
                 {
-                    vals[i] = "'"+f.GetValue(objeto).ToString()+"'";
+                    vals[i] = null;
                 }
-                if(f.GetValue(objeto) is int)
+                else
                 {
-                    vals[i] = f.GetValue(objeto).ToString();
-                }
-                if(f.GetValue(objeto) is bool)
-                {
-                    vals[i] = ((bool)f.GetValue(objeto))?"'1'":"'0'";
-                }
-                if(f.GetValue(objeto) is DateTime)
-                {
-                    vals[i] = "'" + ((DateTime)f.GetValue(objeto)).Date.ToString() + "'";
+                    if (f.GetValue(objeto) is String)
+                    {
+                        vals[i] = "'" + f.GetValue(objeto).ToString() + "'";
+                    }
+                    if (f.GetValue(objeto) is int)
+                    {
+                        vals[i] = f.GetValue(objeto).ToString();
+                    }
+                    if (f.GetValue(objeto) is bool)
+                    {
+                        vals[i] = ((bool)f.GetValue(objeto)) ? "'1'" : "'0'";
+                    }
+                    if (f.GetValue(objeto) is DateTime)
+                    {
+                        vals[i] = "TO_DATE('" + Tools.DateToString((DateTime)f.GetValue(objeto),DateFormat.YearMonthDay,'-') + "','YYYY-MM-DD')";
+                    }
                 }
                 i++;
             }
             i = 0;
-            //ANULAR LA ID PORQUE LA GENERA LA BDD
+            //ANULAR LA ID PORQUE LA GENERA LA BDD O ES CONDICION
             foreach (var inf in miembros)
             {
                 if (i > 0)
                 {
-                    valores += inf.Name + "="+vals[i];
+                    if (update)
+                    {
+                        if (vals[i] != null)
+                        {
+                            valores += inf.Name + "=" + vals[i] + ",";
+                        }
+                    }
+                    else
+                    {
+                        if (vals[i] != null)
+                        {
+                            valores += vals[i] + ",";
+                        }
+                        else
+                        {
+                            valores += "null,";
+                        }
+                    }
                 }
                 i++;
             }
+            valores = valores.Substring(0, valores.Length - 1);
         }
         private String FormatId(String field, dynamic idValue,bool idIsString = false)
         {
