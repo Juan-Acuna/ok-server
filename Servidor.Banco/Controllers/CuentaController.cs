@@ -27,16 +27,8 @@ namespace Servidor.Banco.Controllers
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]int id, [FromBody]String clave,
-            [FromBody]int fondos, [FromBody]String rut, [FromBody]int tipo)
+        public IActionResult Post([FromBody]Cuenta cuenta)
         {
-            var cuenta = new Cuenta
-            {
-                Clave = clave,
-                Fondos = fondos,
-                Rut = rut,
-                Id_tipo = tipo
-            };
             if (con.Insert(cuenta, DataBaseConUser.BancoEstado))
             {
                 return Ok();

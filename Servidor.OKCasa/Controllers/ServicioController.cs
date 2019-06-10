@@ -27,15 +27,8 @@ namespace Servidor.OKCasa.Controllers
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]String nombre, [FromBody]String descripcion,
-            [FromBody]int costo)
+        public IActionResult Post([FromBody]Servicio servicio)
         {
-            Servicio servicio = new Servicio
-            {
-                Nombre = nombre,
-                Descripcion = descripcion,
-                Costo = costo
-            };
             if (con.Insert(servicio, DataBaseConUser.OkCasa))
             {
                 return Ok();

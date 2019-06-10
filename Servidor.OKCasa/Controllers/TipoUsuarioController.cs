@@ -27,13 +27,9 @@ namespace Servidor.OKCasa.Controllers
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]String nombre)
+        public IActionResult Post([FromBody]TipoUsuario tipo)
         {
-            TipoUsuario tipoUsuario = new TipoUsuario
-            {
-                Nombre = nombre
-            };
-            if (con.Insert(tipoUsuario, DataBaseConUser.OkCasa))
+            if (con.Insert(tipo, DataBaseConUser.OkCasa))
             {
                 return Ok();
             }

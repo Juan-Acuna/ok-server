@@ -27,13 +27,8 @@ namespace Servidor.OKCasa.Controllers
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]String encargado, [FromBody]Char disponible)
+        public IActionResult Post([FromBody]Equipo equipo)
         {
-            var equipo = new Equipo
-            {
-                Encargado = encargado,
-                Disponible = disponible,
-            };
             if (con.Insert(equipo, DataBaseConUser.OkCasa))
             {
                 return Ok();

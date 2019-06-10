@@ -27,12 +27,8 @@ namespace Servidor.Transbank.Controllers
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]String nombre)
+        public IActionResult Post([FromBody]Banco banco)
         {
-            var banco = new Banco
-            {
-                Nombre = nombre
-            };
             if (con.Insert(banco, DataBaseConUser.Transbank))
             {
                 return Ok();

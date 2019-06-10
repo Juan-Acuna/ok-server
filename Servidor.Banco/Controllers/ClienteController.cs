@@ -27,14 +27,8 @@ namespace Servidor.Banco.Controllers
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]String rut, [FromBody]String nombre , [FromBody]DateTime nacimiento)
+        public IActionResult Post([FromBody]Cliente cliente)
         {
-            var cliente = new Cliente
-            {
-                Rut = rut,
-                Nombre = nombre,
-                Nacimiento = nacimiento
-            };
             if (con.Insert(cliente, DataBaseConUser.BancoEstado))
             {
                 return Ok();

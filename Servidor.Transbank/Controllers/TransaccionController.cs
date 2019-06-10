@@ -27,15 +27,8 @@ namespace Servidor.Transbank.Controllers
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]int monto, [FromBody]DateTime fecha, [FromBody]String rut, [FromBody]int medio)
+        public IActionResult Post([FromBody]Transaccion t)
         {
-            var t = new Transaccion
-            {
-                Monto = monto,
-                Fecha = fecha,
-                Id_medio = medio,
-                Rut = rut
-            };
             if (con.Insert(t, DataBaseConUser.Transbank))
             {
                 return Ok();

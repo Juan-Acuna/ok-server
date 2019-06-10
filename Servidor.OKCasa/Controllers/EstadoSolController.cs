@@ -27,12 +27,8 @@ namespace Servidor.OKCasa.Controllers
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]String nombre)
+        public IActionResult Post([FromBody]EstadoSol estadoSol)
         {
-            var estadoSol = new EstadoSol
-            {
-                Nombre = nombre
-            };
             if (con.Insert(estadoSol, DataBaseConUser.OkCasa))
             {
                 return Ok();

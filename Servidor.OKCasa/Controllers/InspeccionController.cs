@@ -27,15 +27,8 @@ namespace Servidor.OKCasa.Controllers
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]DateTime fecha, [FromBody]String observaciones,
-            [FromBody]int monto)
+        public IActionResult Post([FromBody]Inspeccion inspeccion)
         {
-            var inspeccion = new Inspeccion
-            {
-                Fecha_visita = fecha,
-                Observaciones = observaciones,
-                Monto = monto
-            };
             if (con.Insert(inspeccion, DataBaseConUser.OkCasa))
             {
                 return Ok();

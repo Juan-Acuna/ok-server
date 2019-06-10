@@ -27,13 +27,9 @@ namespace Servidor.Transbank.Controllers
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]String nombre)
+        public IActionResult Post([FromBody]MedioPago medio)
         {
-            var m = new MedioPago
-            {
-                Nombre = nombre
-            };
-            if (con.Insert(m, DataBaseConUser.Transbank))
+            if (con.Insert(medio, DataBaseConUser.Transbank))
             {
                 return Ok();
             }

@@ -25,18 +25,8 @@ namespace Servidor.OKCasa.Controllers
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]String direccion, [FromBody]DateTime creacion,
-            [FromBody]String rut,[FromBody]int servicio,[FromBody]int equipo)
+        public IActionResult Post([FromBody]Solicitud solicitud)
         {
-            Solicitud solicitud = new Solicitud
-            {
-                Direccion = direccion,
-                Creacion = creacion,
-                Usuario = rut,
-                Id_servicio = servicio,
-                Id_equipo = equipo,
-                Id_estado = 1   //   --------------> SUPONIENDO QUE ESTADO 1 = EN ESPERA.
-            };
             if (con.Insert(solicitud, DataBaseConUser.OkCasa))
             {
                 return Ok();

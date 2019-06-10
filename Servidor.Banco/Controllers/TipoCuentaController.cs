@@ -27,12 +27,8 @@ namespace Servidor.Banco.Controllers
         }
         //POST
         [HttpPost]
-        public IActionResult Post([FromBody]int id, [FromBody]String nombre)
+        public IActionResult Post([FromBody]TipoCuenta tipo)
         {
-            var tipo = new TipoCuenta
-            { 
-                Nombre = nombre
-            };
             if (con.Insert(tipo, DataBaseConUser.BancoEstado))
             {
                 return Ok();
