@@ -47,7 +47,7 @@ namespace Servidor.OKCasa.Controllers
         {
             if (con.Insert(inspeccion, DataBaseConUser.OkCasa))
             {
-                return Ok(new ResponseJson("Registro insertado."));
+                return Ok(new ResponseJson("Registro insertado.",true));
             }
             else
             {
@@ -78,7 +78,7 @@ namespace Servidor.OKCasa.Controllers
         {
             if (con.Delete(new Inspeccion() { Id_inspeccion = id },DataBaseConUser.OkCasa))
             {
-                return Ok(new ResponseJson("Registro Eliminado."));
+                return Ok(new ResponseJson("Registro Eliminado.",true));
             }
             else
             {

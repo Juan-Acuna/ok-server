@@ -14,30 +14,48 @@ namespace Servidor.OKCasa.Controllers
         ConexionOracle con = ConexionOracle.Conexion;
         //GET
         [HttpGet]
+        [ProducesResponseType(typeof(List<Solicitud>), 200)]
+        [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Get()
         {
-            return Ok(con.GetAll<Solicitud>(DataBaseConUser.OkCasa));
+            var a = con.GetAll<Solicitud>(DataBaseConUser.OkCasa);
+            if (a != null && a.Count > 0)
+            {
+                return Ok(a);
+            }
+            return BadRequest(new ResponseJson("No se encontraron registros."));
         }
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Solicitud), 200)]
+        [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Get(int id)
         {
-            return Ok(con.Get<Solicitud>(id, DataBaseConUser.OkCasa));
+            var a = con.Get<Solicitud>(id, DataBaseConUser.OkCasa);
+            if (a == null)
+            {
+                return BadRequest(new ResponseJson("No se encontro coincidencia."));
+            }
+            return Ok(a);
         }
         //POST
         [HttpPost]
+        [ProducesResponseType(typeof(ResponseJson), 200)]
+        [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Post([FromBody]Solicitud solicitud)
         {
             if (con.Insert(solicitud, DataBaseConUser.OkCasa))
             {
-                return Ok();
+                return Ok(new ResponseJson("Registro insertado.", true));
             }
             else
             {
-                return BadRequest();
+                return BadRequest(new ResponseJson("No se pudo insertar el registro."));
             }
         }
         //PUT
         [HttpPut("{id}")]
+        [ProducesResponseType(typeof(Solicitud), 200)]
+        [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Put(int id, [FromBody]int estado, [FromBody]DateTime fin)
         {
             if (con.Update(new Solicitud() { Id_solicitud=id, Id_estado=estado, Fin=fin }, DataBaseConUser.OkCasa))
@@ -46,21 +64,23 @@ namespace Servidor.OKCasa.Controllers
             }
             else
             {
-                return BadRequest();
+                return BadRequest(new ResponseJson("No se pudo modificar el registro"));
             }
 
         }
         //DELETE
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(ResponseJson), 200)]
+        [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Delete(int id)
         {
             if (con.Delete(new Solicitud() { Id_solicitud = id }, DataBaseConUser.OkCasa))
             {
-                return Ok();
+                return Ok(new ResponseJson("Registro Eliminado.", true));
             }
             else
             {
-                return BadRequest();
+                return BadRequest(new ResponseJson("No se pudo eliminar el registro."));
             }
         }
     }

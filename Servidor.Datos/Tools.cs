@@ -7,9 +7,16 @@ namespace Servidor.Datos
     public class ResponseJson
     {
         public String Mensage { get; set; }
+        public bool Result { get; set; }
         public ResponseJson(String mensaje)
         {
             this.Mensage = mensaje;
+            this.Result = false;
+        }
+        public ResponseJson(String mensaje, bool res)
+        {
+            this.Mensage = mensaje;
+            this.Result = res;
         }
     }
     public static class Tools
