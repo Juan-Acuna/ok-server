@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 
 namespace Servidor.OKCasa
 {
@@ -24,7 +25,14 @@ namespace Servidor.OKCasa
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
+            services.AddSwaggerGen(config =>
+            {
+                config.SwaggerDoc("v1",new OpenApiInfo
+                {
+                    Title = "Documentacion API OK-Casa.",
+                    Version = "v1"
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +44,11 @@ namespace Servidor.OKCasa
             }
 
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/v1/swaggwr.json", "API OK-Casa.");
+            });
         }
     }
 }
