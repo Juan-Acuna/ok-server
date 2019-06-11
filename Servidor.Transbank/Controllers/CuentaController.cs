@@ -44,7 +44,7 @@ namespace Servidor.Transbank.Controllers
         {
             if (con.Update(new Cuenta{ Id_cuenta = id, Fondos = fondos }, DataBaseConUser.Transbank))
             {
-                return Ok(con.Get<Cuenta>(id), DataBaseConUser.Transbank);
+                return Ok(con.Get<Cuenta>(id, DataBaseConUser.Transbank));
             }
             else
             {
