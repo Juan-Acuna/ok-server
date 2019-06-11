@@ -1,14 +1,9 @@
-﻿using Dapper.Contrib.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace Servidor.OKCasa.Models
 {
     public class Solicitud
     {
-        [Key]
         public int Id_solicitud { get; set; }
         public String Direccion { get; set; }
         public DateTime Creacion { get; set; }
