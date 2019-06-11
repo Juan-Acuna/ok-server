@@ -16,11 +16,20 @@ namespace Servidor.OKCasa.Controllers
         ConexionOracle con = ConexionOracle.Conexion;
         //GET
         [HttpGet]
+        //[Produces("application/json", Type = typeof(Equipo))]
+        [ProducesResponseType(typeof(List<Equipo>), 200)]
+        [ProducesResponseType(typeof(BadRequesJson), 400)]
         public IActionResult Get()
         {
-            return Ok(con.GetAll<Equipo>(DataBaseConUser.OkCasa));
+            var a = con.GetAll<Equipo>(DataBaseConUser.OkCasa);
+            if (a != null)
+            {
+                return Ok();
+            }
+            return BadRequest(new BadRequesJson("No hay equipos registrados"));
         }
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Equipo), 200)]
         public IActionResult Get(int id)
         {
             return Ok(con.Get<Equipo>(id, DataBaseConUser.OkCasa));

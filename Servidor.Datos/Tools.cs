@@ -4,8 +4,17 @@ using System.Text;
 
 namespace Servidor.Datos
 {
+    public class BadRequesJson
+    {
+        public String Mensage { get; set; }
+        public BadRequesJson(String mensaje)
+        {
+            this.Mensage = mensaje;
+        }
+    }
     public static class Tools
     {
+        
         public static DateTime StringToDate(String date,DateFormat format = DateFormat.DayMonthYear)
         {
             String d = "";
