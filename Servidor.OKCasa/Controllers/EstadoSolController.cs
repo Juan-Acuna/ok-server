@@ -16,39 +16,57 @@ namespace Servidor.OKCasa.Controllers
         ConexionOracle con = ConexionOracle.Conexion;
         //GET
         [HttpGet]
+        [ProducesResponseType(typeof(List<EstadoSol>), 200)]
+        [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Get()
         {
-            return Ok(con.GetAll<EstadoSol>(DataBaseConUser.OkCasa));
+            var a = con.GetAll<EstadoSol>(DataBaseConUser.OkCasa);
+            if (a != null && a.Count>0)
+            {
+                return Ok(a);
+            }
+            return BadRequest(new ResponseJson("No se encontraron registros."));
         }
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(EstadoSol), 200)]
+        [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Get(int id)
         {
-            return Ok(con.Get<EstadoSol>(id, DataBaseConUser.OkCasa));
+            var a = con.Get<EstadoSol>(id, DataBaseConUser.OkCasa);
+            if (a == null)
+            {
+                return BadRequest(new ResponseJson("No se encontro coincidencia."));
+            }
+            return Ok(a);
         }
         //POST
         [HttpPost]
+        [ProducesResponseType(typeof(ResponseJson), 200)]
+        [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Post([FromBody]EstadoSol estadoSol)
         {
             if (con.Insert(estadoSol, DataBaseConUser.OkCasa))
             {
-                return Ok();
+                return Ok(new ResponseJson("Registro insertado."));
             }
             else
             {
-                return BadRequest();
+                return BadRequest(new ResponseJson("No se pudo insertar el registro."));
             }
         }
         //DELETE
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(ResponseJson), 200)]
+        [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Delete(int id)
         {
             if (con.Delete(new EstadoSol() { Id_estado = id }, DataBaseConUser.OkCasa))
             {
-                return Ok();
+                return Ok(new ResponseJson("Registro Eliminado."));
             }
             else
             {
-                return BadRequest();
+                return BadRequest(new ResponseJson("No se pudo eliminar el registro."));
             }
         }
     }

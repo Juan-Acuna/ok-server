@@ -22,7 +22,7 @@ namespace Servidor.OKCasa.Controllers
             var a = con.Get<Usuario>(rut, DataBaseConUser.OkCasa);
             if (a == null)
             {
-                return Json(new BadRequesJson("No existe un usuario con ese rut"));
+                return Json(new ResponseJson("No existe un usuario con ese rut"));
             }
             return Ok(a);
         }

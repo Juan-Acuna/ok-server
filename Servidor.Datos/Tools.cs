@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Servidor.Datos
 {
-    public class BadRequesJson
+    public class ResponseJson
     {
         public String Mensage { get; set; }
-        public BadRequesJson(String mensaje)
+        public ResponseJson(String mensaje)
         {
             this.Mensage = mensaje;
         }
