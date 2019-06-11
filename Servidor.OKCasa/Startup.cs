@@ -47,7 +47,7 @@ namespace Servidor.OKCasa
             app.UseSwagger();
             app.UseSwaggerUI(config =>
             {
-                config.SwaggerEndpoint("/swagger/v1/swaggwr.json", "API OK-Casa.");
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "API OK-Casa.");
             });
         }
     }
