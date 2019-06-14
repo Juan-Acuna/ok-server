@@ -29,7 +29,7 @@ namespace Servidor.Banco.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]Cliente cliente)
         {
-            if (con.Insert(cliente, DataBaseConUser.BancoEstado))
+            if (con.Insert(cliente, DataBaseConUser.BancoEstado,false))
             {
                 return Ok();
             }

@@ -23,7 +23,7 @@ namespace Servidor.OKCasa.Controllers
             var a = con.GetAll<Equipo>(DataBaseConUser.OkCasa);
             if (a != null)
             {
-                return Ok();
+                return Ok(a);
             }
             return BadRequest(new ResponseJson("No se encontraron registros."));
         }
@@ -58,7 +58,7 @@ namespace Servidor.OKCasa.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Equipo), 200)]
         [ProducesResponseType(typeof(ResponseJson), 400)]
-        public IActionResult Put(int id, [FromBody]char disponible)
+        public IActionResult Put(int id, [FromBody]bool disponible)
         {
             if (con.Update(new Equipo() { Id_equipo = id, Disponible=disponible}, DataBaseConUser.OkCasa))
             {
