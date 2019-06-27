@@ -8,6 +8,7 @@ namespace Servidor.Transbank.Models
         public int Monto { get; set; }
         public DateTime Fecha { get; set; }
         public int Id_medio { get; set; }
-        public String Rut { get; set; }
+        public int? Id_cuenta { get; set; }
+        public int? Id_tarjeta { get; set; }
     }
 }
