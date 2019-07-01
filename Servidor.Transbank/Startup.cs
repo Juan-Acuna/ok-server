@@ -48,6 +48,11 @@ namespace Servidor.Transbank
             {
                 config.SwaggerEndpoint("/swagger/v1/swagger.json", "API Transbank.");
             });
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
         }
     }
 }

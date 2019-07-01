@@ -8,7 +8,7 @@
 CREATE TABLE equipo
   (
     id_equipo  NUMBER (4) NOT NULL ,
-    encargado  VARCHAR2 (50) NOT NULL ,
+    encargado  VARCHAR2 (100) NOT NULL ,
     disponible CHAR NOT NULL
   ) ;
 ALTER TABLE equipo ADD CONSTRAINT equipo_PK PRIMARY KEY ( id_equipo ) ;
@@ -16,7 +16,7 @@ ALTER TABLE equipo ADD CONSTRAINT equipo_PK PRIMARY KEY ( id_equipo ) ;
 CREATE TABLE estadosol
   (
     id_estado NUMBER (1) NOT NULL ,
-    nombre    VARCHAR2 (20) NOT NULL
+    nombre    VARCHAR2 (100) NOT NULL
   ) ;
 ALTER TABLE estadosol ADD CONSTRAINT estadosol_PK PRIMARY KEY ( id_estado ) ;
 
@@ -26,14 +26,14 @@ CREATE TABLE inspeccion
     fecha_visita           DATE NOT NULL ,
     observaciones          VARCHAR2(200) NOT NULL ,
     monto                  NUMBER (6) NOT NULL ,
-    id_solicitud           NUMBER NOT NULL
+    id_solicitud           NUMBER(4) NOT NULL
   ) ;
 ALTER TABLE inspeccion ADD CONSTRAINT inspeccion_PK PRIMARY KEY ( id_inspeccion ) ;
 
 CREATE TABLE servicio
   (
     id_servicio NUMBER (1) NOT NULL ,
-    nombre      VARCHAR2 (25) NOT NULL ,
+    nombre      VARCHAR2 (100) NOT NULL ,
     descripcion VARCHAR2 (200) NOT NULL ,
     costo       NUMBER (6) NOT NULL
   ) ;
@@ -41,14 +41,14 @@ ALTER TABLE servicio ADD CONSTRAINT servicio_PK PRIMARY KEY ( id_servicio ) ;
 
 CREATE TABLE solicitud
   (
-    id_solicitud         NUMBER NOT NULL ,
-    direccion            VARCHAR2 (50) NOT NULL ,
+    id_solicitud         NUMBER(4) NOT NULL ,
+    direccion            VARCHAR2 (100) NOT NULL ,
     creacion             DATE NOT NULL ,
     fin                  DATE ,
     id_estado            NUMBER (1) NOT NULL ,
     id_servicio          NUMBER (1) NOT NULL ,
     id_equipo            NUMBER (4) NOT NULL ,
-    rut                  VARCHAR2 (12) NOT NULL
+    rut                  VARCHAR2 (15) NOT NULL
   ) ;
 ALTER TABLE solicitud ADD CONSTRAINT solicitud_PK PRIMARY KEY ( id_solicitud ) ;
 
@@ -61,12 +61,12 @@ ALTER TABLE tipousuario ADD CONSTRAINT tipousuario_PK PRIMARY KEY ( id_tipo ) ;
 
 CREATE TABLE usuario
   (
-    rut                 VARCHAR2 (12) NOT NULL ,
+    rut                 VARCHAR2 (15) NOT NULL ,
     nombre              VARCHAR2 (250) NOT NULL ,
     clave               VARCHAR2 (20) NOT NULL ,
     email               VARCHAR2 (25) NOT NULL ,
     fecha_nac           DATE NOT NULL ,
-    id_tipo NUMBER (1) NOT NULL
+    id_tipo             NUMBER (1) NOT NULL
   ) ;
 ALTER TABLE usuario ADD CONSTRAINT usuario_PK PRIMARY KEY ( rut ) ;
 
