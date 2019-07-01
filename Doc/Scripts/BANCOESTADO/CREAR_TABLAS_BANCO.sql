@@ -34,7 +34,7 @@ ALTER TABLE TipoCuenta ADD CONSTRAINT TipoCuenta_PK PRIMARY KEY ( id_tipo ) ;
 CREATE TABLE TipoVivienda
   (
     id_tipo NUMBER (1) NOT NULL ,
-    nombre  VARCHAR2 NOT NULL
+    nombre  VARCHAR2 (100) NOT NULL
   ) ;
 ALTER TABLE TipoVivienda ADD CONSTRAINT TipoVivienda_PK PRIMARY KEY ( id_tipo ) ;
 

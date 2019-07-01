@@ -49,6 +49,11 @@ namespace Servidor.OKCasa
             {
                 config.SwaggerEndpoint("/swagger/v1/swagger.json", "API OK-Casa.");
             });
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
         }
     }
 }
