@@ -11,11 +11,13 @@ insert into equipo values(1,'Julio','1');
 insert into equipo values(2,'raul','0');
 insert into equipo values(3,'franco','1');
 
-insert into estadosol values(1,'creada');
-insert into ESTADOSOL values(2,'aprovada');
-insert into estadosol values(3,'terminada');
+INSERT INTO ESTADOSOL VALUES(1,'Pendiente');
+INSERT INTO ESTADOSOL VALUES(2,'Cancelado');
+INSERT INTO ESTADOSOL VALUES(3,'Aprobado');
+INSERT INTO ESTADOSOL VALUES(4,'En seguimiento');
+INSERT INTO ESTADOSOL VALUES(5,'Finalizado');
 
-commit
-
-select * from usuario
-SELECT * FROM Equipo 
+INSERT INTO SERVICIO VALUES(1,'Verificación instalaciones','Mediante la verificación de instalaciones puedes ver si tu casa cumple los requerimientos arquitectónicos prometidos, así como los estándares de calidad y seguridad del mercado actuales.',20000);
+INSERT INTO SERVICIO VALUES(2,'Medición vivienda','La medición de vivienda te permite asegurar que tu casa cumple el tamaño prometido, así como la estimación de espacios disponibles para ti y tu familia.',20000);
+INSERT INTO SERVICIO VALUES(3,'Inspección Infraestructura','La inspección de infraestructura asegura que tu vivienda cumple todos los estándares de instalación de luminaria, agua potable y tuberías de gas, para que te sientas seguro en tu nuevo hogar.',20000);
+INSERT INTO SERVICIO VALUES(4,'Termografía','A través de la termografía prometemos comodidad , entregando espacios con una temperatura de acorde a las necesidades de ti y tus seres queridos, en todo momento.',20000);
