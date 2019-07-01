@@ -49,6 +49,11 @@ namespace Servidor.Banco
             {
                 config.SwaggerEndpoint("/swagger/v1/swagger.json", "API BancoEstado.");
             });
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
         }
     }
 }

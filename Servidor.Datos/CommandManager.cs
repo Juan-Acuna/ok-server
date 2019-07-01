@@ -116,8 +116,8 @@ namespace Servidor.Datos
             buscar = buscar.Replace("TABLA", tabla);
             buscar = buscar.Replace("WHERE CONDICION", "");
             Console.WriteLine(buscar);
-            try
-            {
+            /*try
+            {*/
                 _select = new OracleCommand(buscar, con);
                 _select.CommandType = CommandType.Text;
                 OracleDataReader dReader = _select.ExecuteReader();
@@ -151,19 +151,31 @@ namespace Servidor.Datos
                     {
                         try
                         {
-                            item.SetValue(t, ob[l]);
+                            if (ob[l] is DBNull)
+                            {
+                                item.SetValue(t, null);
+                            }
+                            else
+                            {
+                                item.SetValue(t, ob[l]);
+                            }
                         }
-                        catch(ArgumentException e)
+                        catch (ArgumentException e2)
                         {
                             try
                             {
                                 Char c = Char.Parse((String)ob[l]);
                                 item.SetValue(t, c);
                             }
-                            catch (ArgumentException ex)
+                            catch (ArgumentException e3)
                             {
                                 bool b = ((String)ob[l]).Equals("1");
                                 item.SetValue(t, b);
+                            }
+                            catch (InvalidCastException e4)
+                            {
+                                String b = Convert.ToString((short)ob[l]);
+                                item.SetValue(t, Int32.Parse(b));
                             }
                         }
                         l++;
@@ -171,12 +183,12 @@ namespace Servidor.Datos
                     lista.Add(t);
                 }
                 return lista;
-            }
+            /*}
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return null;
-            }
+            }*/
         }
         public bool Update<T>(T objeto) where T : class, new()
         {

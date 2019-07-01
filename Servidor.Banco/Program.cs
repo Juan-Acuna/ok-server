@@ -20,6 +20,7 @@ namespace Servidor.Banco
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseUrls("http://*:2111")
                 .Build();
     }
 }

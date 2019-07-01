@@ -17,7 +17,11 @@ INSERT INTO ESTADOSOL VALUES(3,'Aprobado');
 INSERT INTO ESTADOSOL VALUES(4,'En seguimiento');
 INSERT INTO ESTADOSOL VALUES(5,'Finalizado');
 
-INSERT INTO SERVICIO VALUES(1,'Verificaci√≥n instalaciones','Mediante la verificaci√≥n de instalaciones puedes ver si tu casa cumple los requerimientos arquitect√≥nicos prometidos, as√≠ como los est√°ndares de calidad y seguridad del mercado actuales.',20000);
-INSERT INTO SERVICIO VALUES(2,'Medici√≥n vivienda','La medici√≥n de vivienda te permite asegurar que tu casa cumple el tama√±o prometido, as√≠ como la estimaci√≥n de espacios disponibles para ti y tu familia.',20000);
-INSERT INTO SERVICIO VALUES(3,'Inspecci√≥n Infraestructura','La inspecci√≥n de infraestructura asegura que tu vivienda cumple todos los est√°ndares de instalaci√≥n de luminaria, agua potable y tuber√≠as de gas, para que te sientas seguro en tu nuevo hogar.',20000);
-INSERT INTO SERVICIO VALUES(4,'Termograf√≠a','A trav√©s de la termograf√≠a prometemos comodidad , entregando espacios con una temperatura de acorde a las necesidades de ti y tus seres queridos, en todo momento.',20000);
+INSERT INTO SERVICIO VALUES(1,'VerificaciÛn instalaciones','Mediante la verificaciÛn de instalaciones puedes ver si tu casa cumple los requerimientos arquitectÛnicos prometidos, asÌ como los est·ndares de calidad y seguridad del mercado actual.',20000);
+INSERT INTO SERVICIO VALUES(2,'MediciÛn vivienda','La mediciÛn de vivienda te permite asegurar que tu casa cumple el tamaÒo prometido, asÌ como la estimaciÛn de espacios disponibles para ti y tu familia.',20000);
+INSERT INTO SERVICIO VALUES(3,'InspecciÛn Infraestructura','La inspeccion de infraestructura asegura que tu vivienda cumple todos los est·ndares de instalaciÛn de luminaria, agua potable y tuberÌas de gas, para que te sientas seguro en tu nuevo hogar.',20000);
+INSERT INTO SERVICIO VALUES(4,'TermografÌa','A travÈs de la termografÌa prometemos comodidad , entregando espacios con una temperatura de acorde a las necesidades de ti y tus seres queridos, en todo momento.',20000);
+
+INSERT INTO SOLICITUD VALUES(1,'calle falsa 123',sysdate,null,1,1,1,'199159542');
+
+COMMIT;
