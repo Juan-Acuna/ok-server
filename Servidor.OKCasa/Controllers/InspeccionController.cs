@@ -45,7 +45,8 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Post([FromBody]Inspeccion inspeccion)
         {
-            if (con.Insert(inspeccion, DataBaseConUser.OkCasa))
+            var rs = con.Insert(inspeccion, DataBaseConUser.OkCasa);
+            if (rs)
             {
                 return Ok(new ResponseJson("Registro insertado.",true));
             }
@@ -58,9 +59,9 @@ namespace Servidor.OKCasa.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Inspeccion), 200)]
         [ProducesResponseType(typeof(ResponseJson), 400)]
-        public IActionResult Put(int id, [FromBody]String Observaciones)
+        public IActionResult Put(int id, [FromBody]dynamic data)
         {
-            if (con.Update(new Inspeccion() { Id_inspeccion = id, Observaciones=Observaciones }, DataBaseConUser.OkCasa))
+            if (con.Update(new Inspeccion() { Id_inspeccion = id, Observaciones=data.observaciones }, DataBaseConUser.OkCasa))
             {
                 return Ok(con.Get<Inspeccion>(id, DataBaseConUser.OkCasa));
             }
