@@ -56,10 +56,22 @@ namespace Servidor.OKCasa.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Solicitud), 200)]
         [ProducesResponseType(typeof(ResponseJson), 400)]
-        public IActionResult Put(int id, [FromBody]Solicitud sol)
+        public IActionResult Put(int id, [FromBody]dynamic data)
         {
-            sol.Id_solicitud = id;
-            if (con.Update(sol, DataBaseConUser.OkCasa))
+            var s = con.Get<Solicitud>(id, DataBaseConUser.OkCasa);
+            if (data.fin != null)
+            {
+                s.Fin = data.fin;
+            }
+            if (data.id_estado != null)
+            {
+                s.Id_estado = data.id_estado;
+            }
+            if (data.id_equipo != null)
+            {
+                s.Id_equipo = data.id_equipo;
+            }
+            if (con.Update(s, DataBaseConUser.OkCasa))
             {
                 return Ok(con.Get<Solicitud>(id, DataBaseConUser.OkCasa));
             }

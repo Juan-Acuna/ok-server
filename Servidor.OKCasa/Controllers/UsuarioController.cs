@@ -53,11 +53,24 @@ namespace Servidor.OKCasa.Controllers
         }
         //PUT
         [HttpPut("{rut}")]
-        [ProducesResponseType(typeof(Servicio), 200)]
+        [ProducesResponseType(typeof(Usuario), 200)]
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Put(String rut,[FromBody]dynamic data)
         {
-            if (con.Update(new Usuario() { Rut = rut, Clave = data.clave, Email = data.email }, DataBaseConUser.OkCasa))
+            var u = con.Get<Usuario>(rut, DataBaseConUser.OkCasa);
+            if(data.nombre != null)
+            {
+                u.Nombre = data.nombre;
+            }
+            if (data.clave != null)
+            {
+                u.Clave = data.clave;
+            }
+            if (data.email != null)
+            {
+                u.Email = data.email;
+            }
+            if (con.Update(u, DataBaseConUser.OkCasa))
             {
                 return Ok(con.Get<Usuario>(rut, DataBaseConUser.OkCasa));
             }

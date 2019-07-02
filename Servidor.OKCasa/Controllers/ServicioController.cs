@@ -58,9 +58,13 @@ namespace Servidor.OKCasa.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Servicio), 200)]
         [ProducesResponseType(typeof(ResponseJson), 400)]
-        public IActionResult Put(int id, [FromBody]Servicio s)
+        public IActionResult Put(int id, [FromBody]dynamic data)
         {
-            s.Id_servicio = id;
+            var s = con.Get<Servicio>(id, DataBaseConUser.OkCasa);
+            if(data.descripcion != null)
+            {
+                s.Descripcion = data.descripcion;
+            }
             if (con.Update(s, DataBaseConUser.OkCasa))
             {
                 return Ok(con.Get<Servicio>(id, DataBaseConUser.OkCasa));
