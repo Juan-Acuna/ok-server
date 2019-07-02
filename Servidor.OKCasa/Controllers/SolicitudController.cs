@@ -19,7 +19,7 @@ namespace Servidor.OKCasa.Controllers
         public IActionResult Get()
         {
             var a = con.GetAll<Solicitud>(DataBaseConUser.OkCasa);
-            if (a != null && a.Count > 0)
+            if (a != null)
             {
                 return Ok(a);
             }
@@ -56,9 +56,14 @@ namespace Servidor.OKCasa.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Solicitud), 200)]
         [ProducesResponseType(typeof(ResponseJson), 400)]
-        public IActionResult Put(int id, [FromBody]int estado, [FromBody]DateTime fin)
+        public IActionResult Put(int id, [FromBody]dynamic data)
         {
-            if (con.Update(new Solicitud() { Id_solicitud=id, Id_estado=estado, Fin=fin }, DataBaseConUser.OkCasa))
+            DateTime? fin = null;
+            if(data.estado == 3)
+            {
+                fin = DateTime.Now;
+            }
+            if (con.Update(new Solicitud() { Id_solicitud=id, Id_estado=data.estado, Fin=fin.Value }, DataBaseConUser.OkCasa))
             {
                 return Ok(con.Get<Solicitud>(id, DataBaseConUser.OkCasa));
             }

@@ -8,6 +8,6 @@ namespace Servidor.OKCasa.Models
         public DateTime Fecha_visita { get; set; }
         public String Observaciones { get; set; }
         public int Monto { get; set; }
-        public int Solicitud { get; set; }
+        public int Id_Solicitud { get; set; }
     }
 }

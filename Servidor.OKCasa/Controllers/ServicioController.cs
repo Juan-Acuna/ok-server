@@ -21,7 +21,7 @@ namespace Servidor.OKCasa.Controllers
         public IActionResult Get()
         {
             var a = con.GetAll<Servicio>(DataBaseConUser.OkCasa);
-            if (a != null && a.Count > 0)
+            if (a != null)
             {
                 return Ok(a);
             }
@@ -60,12 +60,7 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Put(int id, [FromBody]dynamic data)
         {
-            var s = con.Get<Servicio>(id, DataBaseConUser.OkCasa);
-            if(data.descripcion != null)
-            {
-                s.Descripcion = data.descripcion;
-            }
-            if (con.Update(s, DataBaseConUser.OkCasa))
+            if (con.Update(new Servicio() { Id_servicio = id, Descripcion = data.descripcion, Costo = data.costo }, DataBaseConUser.OkCasa))
             {
                 return Ok(con.Get<Servicio>(id, DataBaseConUser.OkCasa));
             }

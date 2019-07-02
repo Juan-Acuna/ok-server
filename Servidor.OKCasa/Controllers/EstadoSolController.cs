@@ -21,7 +21,7 @@ namespace Servidor.OKCasa.Controllers
         public IActionResult Get()
         {
             var a = con.GetAll<EstadoSol>(DataBaseConUser.OkCasa);
-            if (a != null && a.Count>0)
+            if (a != null)
             {
                 return Ok(a);
             }

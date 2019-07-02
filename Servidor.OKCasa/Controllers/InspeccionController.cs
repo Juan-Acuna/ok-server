@@ -21,7 +21,7 @@ namespace Servidor.OKCasa.Controllers
         public IActionResult Get()
         {
             var a = con.GetAll<Inspeccion>(DataBaseConUser.OkCasa);
-            if (a != null && a.Count>0)
+            if (a != null)
             {
                 return Ok(a);
             }
@@ -45,7 +45,8 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Post([FromBody]Inspeccion inspeccion)
         {
-            if (con.Insert(inspeccion, DataBaseConUser.OkCasa))
+            var rs = con.Insert(inspeccion, DataBaseConUser.OkCasa);
+            if (rs)
             {
                 return Ok(new ResponseJson("Registro insertado.",true));
             }
@@ -60,12 +61,7 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Put(int id, [FromBody]dynamic data)
         {
-            var i = con.Get<Inspeccion>(id, DataBaseConUser.OkCasa);
-            if(data.observaciones != null)
-            {
-                i.Observaciones = data.observaciones;
-            }
-            if (con.Update(i, DataBaseConUser.OkCasa))
+            if (con.Update(new Inspeccion() { Id_inspeccion = id, Observaciones=data.observaciones }, DataBaseConUser.OkCasa))
             {
                 return Ok(con.Get<Inspeccion>(id, DataBaseConUser.OkCasa));
             }
