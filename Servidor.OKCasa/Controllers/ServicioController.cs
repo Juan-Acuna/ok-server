@@ -60,7 +60,12 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Put(int id, [FromBody]dynamic data)
         {
-            if (con.Update(new Servicio() { Id_servicio = id, Descripcion = data.descripcion, Costo = data.costo }, DataBaseConUser.OkCasa))
+            var s = con.Get<Servicio>(id, DataBaseConUser.OkCasa);
+            if(data.costo != null)
+            {
+                s.Costo = data.costo;
+            }
+            if (con.Update(s, DataBaseConUser.OkCasa))
             {
                 return Ok(con.Get<Servicio>(id, DataBaseConUser.OkCasa));
             }

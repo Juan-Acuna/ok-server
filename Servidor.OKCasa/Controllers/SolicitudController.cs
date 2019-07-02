@@ -58,12 +58,16 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Put(int id, [FromBody]dynamic data)
         {
-            DateTime? fin = null;
-            if(data.estado == 3)
+            var s = con.Get<Solicitud>(id, DataBaseConUser.OkCasa);
+            if (data.estado != null)
             {
-                fin = DateTime.Now;
+                s.Id_estado = data.estado;
+                if (data.estado == 3)
+                {
+                    s.Fin = DateTime.Now;
+                }
             }
-            if (con.Update(new Solicitud() { Id_solicitud=id, Id_estado=data.estado, Fin=fin.Value }, DataBaseConUser.OkCasa))
+            if (con.Update(s, DataBaseConUser.OkCasa))
             {
                 return Ok(con.Get<Solicitud>(id, DataBaseConUser.OkCasa));
             }
