@@ -40,9 +40,14 @@ namespace Servidor.Transbank.Controllers
         }
         //PUT
         [HttpPut("{rut}")]
-        public IActionResult Put(int id, [FromBody]int fondos)
+        public IActionResult Put(int id, [FromBody]dynamic data)
         {
-            if (con.Update(new Cuenta{ Id_cuenta = id, Fondos = fondos }, DataBaseConUser.Transbank))
+            var c = con.Get<Cuenta>(id, DataBaseConUser.Transbank);
+            if(data.fondos != null)
+            {
+                c.Fondos = data.fondos;
+            }
+            if (con.Update(c, DataBaseConUser.Transbank))
             {
                 return Ok(con.Get<Cuenta>(id, DataBaseConUser.Transbank));
             }
