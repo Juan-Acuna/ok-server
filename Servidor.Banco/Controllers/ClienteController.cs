@@ -40,9 +40,14 @@ namespace Servidor.Banco.Controllers
         }
         //PUT
         [HttpPut("{rut}")]
-        public IActionResult Put(String rut, [FromBody]String nombre)
+        public IActionResult Put(String rut, [FromBody]dynamic data)
         {
-            if (con.Update(new Cliente{ Rut = rut, Nombre = nombre }, DataBaseConUser.BancoEstado))
+            var c = con.Get<Cliente>(rut, DataBaseConUser.BancoEstado);
+            if(data.nombre != null)
+            {
+                c.Nombre = data.nombre;
+            }
+            if (con.Update(c, DataBaseConUser.BancoEstado))
             {
                 return Ok(con.Get<Cliente>(rut, DataBaseConUser.BancoEstado));
             }

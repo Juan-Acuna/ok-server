@@ -40,9 +40,18 @@ namespace Servidor.Banco.Controllers
         }
         //PUT
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]int fondos)
+        public IActionResult Put(int id, [FromBody]dynamic data)
         {
-            if (con.Update(new Cuenta{ Id_cuenta = id, Fondos = fondos }, DataBaseConUser.BancoEstado))
+            var c = con.Get<Cuenta>(id, DataBaseConUser.BancoEstado);
+            if (data.fondos != null)
+            {
+                c.Fondos = data.fondos;
+            }
+            if (data.clave != null)
+            {
+                c.Clave = data.clave;
+            }
+            if (con.Update(c, DataBaseConUser.BancoEstado))
             {
                 return Ok(con.Get<Cuenta>(id, DataBaseConUser.BancoEstado));
             }
