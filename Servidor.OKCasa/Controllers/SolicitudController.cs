@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Servidor.Datos;
@@ -30,7 +31,7 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Get(int id)
         {
-            var a = con.Get<Solicitud>(id, DataBaseConUser.OkCasa);
+            var a = con.GetAll<Solicitud>(DataBaseConUser.OkCasa).FirstOrDefault(x => x.Id_solicitud == id);
             if (a == null)
             {
                 return BadRequest(new ResponseJson("No se encontro coincidencia."));
@@ -58,7 +59,7 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Put(int id, [FromBody]dynamic data)
         {
-            var s = con.Get<Solicitud>(id, DataBaseConUser.OkCasa);
+            var s = con.GetAll<Solicitud>(DataBaseConUser.OkCasa).FirstOrDefault(x => x.Id_solicitud == id);
             if (data.estado != null)
             {
                 s.Id_estado = data.estado;

@@ -32,7 +32,7 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Get(int id)
         {
-            var a = con.Get<Servicio>(id, DataBaseConUser.OkCasa);
+            var a = con.GetAll<Servicio>(DataBaseConUser.OkCasa).FirstOrDefault(x => x.Id_servicio == id);
             if (a == null)
             {
                 return BadRequest(new ResponseJson("No se encontro coincidencia."));
@@ -60,8 +60,8 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Put(int id, [FromBody]dynamic data)
         {
-            var s = con.Get<Servicio>(id, DataBaseConUser.OkCasa);
-            if(data.costo != null)
+            var s = con.GetAll<Servicio>(DataBaseConUser.OkCasa).FirstOrDefault(x => x.Id_servicio == id);
+            if (data.costo != null)
             {
                 s.Costo = data.costo;
             }

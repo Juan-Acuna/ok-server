@@ -32,7 +32,7 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Get(int id)
         {
-            var a = con.Get<Inspeccion>(id, DataBaseConUser.OkCasa);
+            var a = con.GetAll<Inspeccion>(DataBaseConUser.OkCasa).FirstOrDefault(x => x.Id_inspeccion == id);
             if (a == null)
             {
                 return BadRequest(new ResponseJson("No se encontro coincidencia."));
@@ -61,10 +61,18 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Put(int id, [FromBody]dynamic data)
         {
-            var i = con.Get<Inspeccion>(id, DataBaseConUser.OkCasa);
-            if(data.observaciones != null)
+            var i = con.GetAll<Inspeccion>(DataBaseConUser.OkCasa).FirstOrDefault(x => x.Id_inspeccion == id);
+            if (data.observaciones != null)
             {
                 i.Observaciones = data.observaciones;
+            }
+            if (data.monto != null)
+            {
+                i.Monto = data.monto;
+            }
+            if (data.fecha_visita != null)
+            {
+                i.Fecha_visita = data.fecha_visita;
             }
             if (con.Update(i, DataBaseConUser.OkCasa))
             {

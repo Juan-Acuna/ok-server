@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Servidor.Datos;
 using Servidor.OKCasa.Models;
@@ -29,7 +30,7 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Get(String rut)
         {
-            var a = con.Get<Usuario>(rut, DataBaseConUser.OkCasa);
+            var a = con.GetAll<Usuario>(DataBaseConUser.OkCasa).FirstOrDefault(x => x.Rut == rut);
             if (a == null)
             {
                 return Json(new ResponseJson("No existe un usuario con ese rut"));
@@ -57,8 +58,8 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Put(String rut,[FromBody]dynamic data)
         {
-            var u = con.Get<Usuario>(rut, DataBaseConUser.OkCasa);
-            if(data.nombre != null)
+            var u = con.GetAll<Usuario>(DataBaseConUser.OkCasa).FirstOrDefault(x => x.Rut == rut);
+            if (data.nombre != null)
             {
                 u.Nombre = data.nombre;
             }

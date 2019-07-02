@@ -32,7 +32,7 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Get(int id)
         {
-            var a = con.Get<TipoUsuario>(id, DataBaseConUser.OkCasa);
+            var a = con.GetAll<TipoUsuario>(DataBaseConUser.OkCasa).FirstOrDefault(x => x.Id_tipo == id);
             if (a == null)
             {
                 return BadRequest(new ResponseJson("No se encontro coincidencia."));

@@ -32,7 +32,7 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Get(int id)
         {
-            var a = con.Get<Equipo>(id, DataBaseConUser.OkCasa);
+            var a = con.GetAll<Equipo>(DataBaseConUser.OkCasa).FirstOrDefault(x=>x.Id_equipo == id);
             if (a != null)
             {
                 return Ok(a);
@@ -60,7 +60,7 @@ namespace Servidor.OKCasa.Controllers
         [ProducesResponseType(typeof(ResponseJson), 400)]
         public IActionResult Put(int id, [FromBody]dynamic data)
         {
-            var e = con.Get<Equipo>(id, DataBaseConUser.OkCasa);
+            var e = con.GetAll<Equipo>(DataBaseConUser.OkCasa).FirstOrDefault(x => x.Id_equipo == id);
             if(data.disponible != null)
             {
                 e.Disponible = data.disponible;
