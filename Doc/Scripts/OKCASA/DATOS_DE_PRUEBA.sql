@@ -22,6 +22,5 @@ INSERT INTO SERVICIO VALUES(2,'Medición vivienda','La medición de vivienda te pe
 INSERT INTO SERVICIO VALUES(3,'Inspección Infraestructura','La inspeccion de infraestructura asegura que tu vivienda cumple todos los estándares de instalación de luminaria, agua potable y tuberías de gas, para que te sientas seguro en tu nuevo hogar.',20000);
 INSERT INTO SERVICIO VALUES(4,'Termografía','A través de la termografía prometemos comodidad , entregando espacios con una temperatura de acorde a las necesidades de ti y tus seres queridos, en todo momento.',20000);
 
-INSERT INTO SOLICITUD VALUES(1,'calle falsa 123',sysdate,null,1,1,1,'199159542');
 
 COMMIT;

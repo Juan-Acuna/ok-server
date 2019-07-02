@@ -47,7 +47,7 @@ CREATE TABLE solicitud
     fin                  DATE ,
     id_estado            NUMBER (1) NOT NULL ,
     id_servicio          NUMBER (1) NOT NULL ,
-    id_equipo            NUMBER (4) NOT NULL ,
+    id_equipo            NUMBER (4) ,
     rut                  VARCHAR2 (15) NOT NULL
   ) ;
 ALTER TABLE solicitud ADD CONSTRAINT solicitud_PK PRIMARY KEY ( id_solicitud ) ;
