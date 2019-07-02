@@ -58,9 +58,10 @@ namespace Servidor.OKCasa.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Inspeccion), 200)]
         [ProducesResponseType(typeof(ResponseJson), 400)]
-        public IActionResult Put(int id, [FromBody]String Observaciones)
+        public IActionResult Put(int id, [FromBody]Inspeccion i)
         {
-            if (con.Update(new Inspeccion() { Id_inspeccion = id, Observaciones=Observaciones }, DataBaseConUser.OkCasa))
+            i.Id_inspeccion = id;
+            if (con.Update(i, DataBaseConUser.OkCasa))
             {
                 return Ok(con.Get<Inspeccion>(id, DataBaseConUser.OkCasa));
             }
